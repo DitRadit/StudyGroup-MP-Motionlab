@@ -36,7 +36,7 @@ Step-step yang umum untuk mengepush file project ke repository jika repository d
 1. `git init` : Menginisialisasi repositori baru di dalam direktori.
 2. `git add <file>` : Menambahkan perubahan file ke staging area, menandakan bahwa file siap untuk di-commit.
 3. `git commit -m "<pesan commit>"` : Menyimpan perubahan ke repositori dengan pesan yang menjelaskan perubahan yang dilakukan.
-4. `git remote add origin <url-repository>` : Menyambungkan folder lokal ke repository GitHub
+4. `git remote add origin <url-repository-https>` : Menyambungkan folder lokal ke repository GitHub
 5. `git pull origin main` : Mengambil perubahan terbaru dari repositori remote dan menggabungkannya dengan repositori lokal.
 6. `git push origin main` : Push file lokal ke branch utama repository GitHub
 

@@ -391,7 +391,7 @@ class HomePage extends StatelessWidget {
                                                           .spaceBetween,
                                                   children: [
                                                     Text(
-                                                      'Headphone',
+                                                      'Siberia 800',
                                                       style: TextStyle(
                                                         fontSize: 13,
                                                       ),
@@ -405,7 +405,7 @@ class HomePage extends StatelessWidget {
                                                           .spaceAround,
                                                   children: [
                                                     Text(
-                                                      '\$12.00',
+                                                      '\$45.00',
                                                       style: TextStyle(
                                                         fontSize: 16,
                                                         color: Colors.green,
@@ -460,7 +460,7 @@ class HomePage extends StatelessWidget {
                                                           .spaceBetween,
                                                   children: [
                                                     Text(
-                                                      'Shoes',
+                                                      'Strawberry Frappuccino',
                                                       style: TextStyle(
                                                         fontSize: 13,
                                                       ),
@@ -474,7 +474,7 @@ class HomePage extends StatelessWidget {
                                                           .spaceAround,
                                                   children: [
                                                     Text(
-                                                      '\$12.00',
+                                                      '\$35.00',
                                                       style: TextStyle(
                                                         fontSize: 16,
                                                         color: Colors.green,
@@ -516,22 +516,22 @@ class HomePage extends StatelessWidget {
             children: [
               Icon(
                 Icons.home,
-                size: 40,
+                size: 30,
                 color: Colors.white,
               ),
               Icon(
                 Icons.account_balance_wallet_outlined,
-                size: 40,
+                size: 30,
                 color: Colors.grey,
               ),
               Icon(
                 Icons.favorite_outline,
-                size: 40,
+                size: 30,
                 color: Colors.grey,
               ),
               Icon(
                 Icons.notifications_none_outlined,
-                size: 40,
+                size: 30,
                 color: Colors.grey,
               ),
             ],

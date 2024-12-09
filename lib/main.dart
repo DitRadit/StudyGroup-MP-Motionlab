@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:home_page/pages/home_page.dart';
 import 'package:home_page/pages/login_page.dart';
 import 'package:home_page/pages/register_page.dart';
 
 void main() {
-  runApp(const HomePage());
+  runApp(const MainApp());
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    // var size = MediaQuery.of(context).size;
 
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 2;
+    // final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    // final double itemWidth = size.width / 2;
 
     return MaterialApp(
       initialRoute: '/',
       routes: {
         '/': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
+        '/home': (context) => const HomePage(),
       },
       // home: Scaffold(
       //   appBar: AppBar(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:home_page/pages/home_page.dart';
 import 'package:home_page/widgets/custom_big_button.dart';
 import 'package:home_page/widgets/custom_text_field_widget.dart';
-// import 'package:lottie/lottie.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatelessWidget {

@@ -512,8 +512,7 @@ class HomePage extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(
-                      context, '/home'); // Arahkan ke halaman lain
+                  Navigator.pushNamed(context, '/');
                 },
                 child: Icon(
                   Icons.home,

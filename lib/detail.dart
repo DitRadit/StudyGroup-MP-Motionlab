@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_page/pages/cart_page.dart';
 
 void main() {
   runApp(const DetailProduct());
@@ -11,6 +12,7 @@ class DetailProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -83,21 +85,29 @@ class DetailProduct extends StatelessWidget {
                 SizedBox(
                   height: 15,
                 ),
-                Container(
-                  padding: EdgeInsets.all(30),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Color(0xFF00623B),
-                  ),
-                  child: Text(
-                    "Add To Bag",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CartPage()),
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(30),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Color(0xFF00623B),
                     ),
-                    textAlign: TextAlign.center,
+                    child: Text(
+                      "Add To Bag",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ],

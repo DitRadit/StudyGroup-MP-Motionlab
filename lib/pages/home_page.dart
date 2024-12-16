@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:home_page/detail.dart';
+import 'package:home_page/pages/cart_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -31,10 +33,10 @@ class HomePage extends StatelessWidget {
                   width: 50,
                   height: 50,
                 ),
-                const Icon(
-                  Icons.shopping_bag_outlined,
-                  size: 25,
-                  color: Colors.grey,
+                IconButton(
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const CartPage())),
+                  icon: Icon(Icons.shopping_bag_outlined),
                 ),
               ],
             ),
@@ -211,73 +213,86 @@ class HomePage extends StatelessWidget {
                                   mainAxisSpacing: 10,
                                   padding: const EdgeInsets.all(20),
                                   children: <Widget>[
-                                    Container(
-                                      width: double.infinity,
-                                      height: 180,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            blurRadius: 5,
-                                            offset: Offset(0, 2),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: Image.asset(
-                                              'assets/images/smartwatch.png',
-                                              fit: BoxFit.cover,
-                                              width: double.infinity,
-                                              height: 180,
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Navigate to DetailProduct screen
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailProduct()),
+                                        );
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 180,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black26,
+                                              blurRadius: 5,
+                                              offset: Offset(0, 2),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'Mi Band 8 Pro',
-                                                      style: TextStyle(
-                                                        fontSize: 13,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(height: 8),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: [
-                                                    Text(
-                                                      '\$54.00',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.green,
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 60),
-                                                    Icon(Icons.favorite,
-                                                        color: Colors.red),
-                                                  ],
-                                                ),
-                                              ],
+                                          ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              child: Image.asset(
+                                                'assets/images/smartwatch.png',
+                                                fit: BoxFit.cover,
+                                                width: double.infinity,
+                                                height: 180,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'Mi Band 8 Pro',
+                                                        style: TextStyle(
+                                                          fontSize: 13,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 8),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Text(
+                                                        '\$54.00',
+                                                        style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.green,
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 60),
+                                                      Icon(Icons.favorite,
+                                                          color: Colors.red),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     Container(

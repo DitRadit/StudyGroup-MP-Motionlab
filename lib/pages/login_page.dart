@@ -50,7 +50,7 @@ class LoginPage extends StatelessWidget {
               SizedBox(height: 20),
               CustomTextFieldWidget(
                 hintText: "Password",
-                icons: Icon(Icons.email_outlined),
+                icons: Icon(Icons.lock_outline),
               ),
               SizedBox(height: 50),
               CustomBigButton(

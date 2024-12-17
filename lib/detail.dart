@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_page/pages/cart_page.dart';
+import 'package:home_page/pages/home_page.dart';
 import 'package:home_page/widgets/appbar_widget.dart';
 
 void main() {
@@ -21,6 +22,7 @@ class DetailProduct extends StatelessWidget {
               children: [
                 NavBar(
                   text: "Product",
+                  routeName: HomePage(),
                   icon: Icon(
                     Icons.favorite,
                     color: Colors.red,

@@ -3,10 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 class NavBar extends StatelessWidget implements PreferredSizeWidget {
   final String text;
+  final Widget? routeName;
   final Widget? icon;
 
   const NavBar({
     super.key,
+    this.routeName,
     required this.text,
     this.icon,
   });
@@ -23,7 +25,12 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
             height: 24,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            if (routeName != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => routeName!),
+              );
+            }
           },
         ),
       ),

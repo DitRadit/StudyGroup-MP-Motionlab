@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:home_page/controller/cart_controller.dart';
 import 'package:home_page/pages/invoice_page.dart';
 import 'package:home_page/widgets/appbar_widget.dart';

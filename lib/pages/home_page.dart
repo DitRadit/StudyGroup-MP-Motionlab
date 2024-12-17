@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:home_page/detail.dart';
+// import 'package:home_page/detail.dart';
 import 'package:home_page/pages/cart_page.dart';
+import 'package:home_page/widgets/gallery_card_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    // var size = MediaQuery.of(context).size;
 
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 2;
+    // final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    // final double itemWidth = size.width / 2;
 
     return MaterialApp(
       home: Scaffold(
@@ -48,26 +50,6 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Image.asset(
-                //       "assets/images/hamburgermenu.png",
-                //       width: 30,
-                //       height: 30,
-                //     ),
-                //     Image.asset(
-                //       "assets/images/logo.png",
-                //       width: 60,
-                //       height: 60,
-                //     ),
-                //     Icon(
-                //       Icons.shopping_bag_outlined,
-                //       size: 35,
-                //       color: Colors.grey,
-                //     ),
-                //   ],
-                // ),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
@@ -204,303 +186,57 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 30),
-                                GridView.count(
+                                GridView(
+                                  padding: EdgeInsets.all(10),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                    childAspectRatio: 0.7,
+                                  ),
+                                  scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
-                                  childAspectRatio: (itemWidth / itemHeight),
-                                  physics: NeverScrollableScrollPhysics(),
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-                                  padding: const EdgeInsets.all(20),
-                                  children: <Widget>[
+                                  children: [
                                     GestureDetector(
                                       onTap: () {
-                                        // Navigate to DetailProduct screen
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DetailProduct()),
+                                            builder: (context) =>
+                                                DetailProduct(),
+                                          ),
                                         );
                                       },
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 180,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black26,
-                                              blurRadius: 5,
-                                              offset: Offset(0, 2),
-                                            ),
-                                          ],
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              child: Image.asset(
-                                                'assets/images/smartwatch.png',
-                                                fit: BoxFit.cover,
-                                                width: double.infinity,
-                                                height: 180,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        'Mi Band 8 Pro',
-                                                        style: TextStyle(
-                                                          fontSize: 13,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 8),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      Text(
-                                                        '\$54.00',
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.green,
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 60),
-                                                      Icon(Icons.favorite,
-                                                          color: Colors.red),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                      child: GalleryCardWidget(
+                                        imagePath:
+                                            "assets/images/smartwatch.png",
+                                        title: "Mi Band 8 Pro",
+                                        price: "\$54.00",
+                                        icon: Icons.favorite,
+                                        iconColor: Colors.red,
                                       ),
                                     ),
-                                    Container(
-                                      width: double.infinity,
-                                      height: 180,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            blurRadius: 5,
-                                            offset: Offset(0, 2),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: Image.asset(
-                                              'assets/images/baju.png',
-                                              fit: BoxFit.cover,
-                                              width: double.infinity,
-                                              height: 180,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'Lycra Men’s shirt',
-                                                      style: TextStyle(
-                                                        fontSize: 13,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(height: 8),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: [
-                                                    Text(
-                                                      '\$12.00',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.green,
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 60),
-                                                    Icon(Icons.favorite,
-                                                        color: Colors.grey),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    GalleryCardWidget(
+                                      imagePath: "assets/images/baju.png",
+                                      title: "Lycra Men’s shirt",
+                                      price: "\$12.00",
+                                      icon: Icons.favorite,
+                                      iconColor: Colors.grey,
                                     ),
-                                    Container(
-                                      width: double.infinity,
-                                      height: 180,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            blurRadius: 5,
-                                            offset: Offset(0, 2),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: Image.asset(
-                                              'assets/images/headphone.png',
-                                              fit: BoxFit.cover,
-                                              width: double.infinity,
-                                              height: 180,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'Siberia 800',
-                                                      style: TextStyle(
-                                                        fontSize: 13,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(height: 8),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: [
-                                                    Text(
-                                                      '\$45.00',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.green,
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 60),
-                                                    Icon(Icons.favorite,
-                                                        color: Colors.grey),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    GalleryCardWidget(
+                                      imagePath: "assets/images/baju.png",
+                                      title: "Lycra Men’s shirt",
+                                      price: "\$12.00",
+                                      icon: Icons.favorite,
+                                      iconColor: Colors.grey,
                                     ),
-                                    Container(
-                                      width: double.infinity,
-                                      height: 180,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            blurRadius: 5,
-                                            offset: Offset(0, 2),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: Image.asset(
-                                              'assets/images/shoes.png',
-                                              fit: BoxFit.cover,
-                                              width: double.infinity,
-                                              height: 180,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'Strawberry Frappuccino',
-                                                      style: TextStyle(
-                                                        fontSize: 13,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(height: 8),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: [
-                                                    Text(
-                                                      '\$35.00',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.green,
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 60),
-                                                    Icon(Icons.favorite,
-                                                        color: Colors.grey),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    GalleryCardWidget(
+                                      imagePath: "assets/images/baju.png",
+                                      title: "Lycra Men’s shirt",
+                                      price: "\$12.00",
+                                      icon: Icons.favorite,
+                                      iconColor: Colors.grey,
                                     ),
                                   ],
                                 ),
@@ -523,7 +259,7 @@ class HomePage extends StatelessWidget {
             color: Color(0xFF00623B),
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               InkWell(
                 onTap: () {
@@ -536,17 +272,12 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               Icon(
-                Icons.account_balance_wallet_outlined,
-                size: 30,
-                color: Colors.grey,
-              ),
-              Icon(
                 Icons.favorite_outline,
                 size: 30,
                 color: Colors.grey,
               ),
               Icon(
-                Icons.notifications_none_outlined,
+                Icons.person_2_outlined,
                 size: 30,
                 color: Colors.grey,
               ),

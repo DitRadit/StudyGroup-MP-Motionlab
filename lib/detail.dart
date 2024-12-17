@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_page/pages/cart_page.dart';
+import 'package:home_page/widgets/appbar_widget.dart';
 
 void main() {
   runApp(const DetailProduct());
@@ -18,25 +19,13 @@ class DetailProduct extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(
-                      Icons.chevron_left,
-                      size: 35,
-                    ),
-                    Text(
-                      "Product",
-                      style: TextStyle(
-                        fontSize: 22,
-                      ),
-                    ),
-                    Icon(
-                      Icons.favorite,
-                      size: 35,
-                      color: Colors.red,
-                    ),
-                  ],
+                NavBar(
+                  text: "Product",
+                  icon: Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                    size: 30,
+                  ),
                 ),
                 Expanded(
                   child: SingleChildScrollView(

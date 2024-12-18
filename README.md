@@ -1,338 +1,152 @@
-# Panduan Penggunaan Package, Lottie, Google Fonts, dan Navigation di Flutter
+# State Management dan Implementasi GetX
 
-Dokumentasi ini menjelaskan cara menggunakan package di Flutter, termasuk **Lottie**, **Google Fonts**, dan cara melakukan **Navigation** menggunakan route `"/"`.
+## 1. Apa itu State Management?
 
-## **Menggunakan Package di Flutter**
+State management adalah cara mengelola data (state) dalam sebuah aplikasi agar tetap konsisten dan sinkron di berbagai bagian aplikasi. State bisa berupa data seperti:
 
-Package di Flutter adalah kumpulan kode yang memberikan fungsionalitas tambahan pada aplikasi tanpa perlu menulis kode dari awal. Untuk menggunakan package, Anda perlu menambahkannya ke dalam file `pubspec.yaml` dan menjalankan perintah `flutter pub get`.
+- Jumlah barang dalam keranjang belanja
+- Status login pengguna
+- Tema aplikasi (terang/gelap)
 
-### Langkah-langkah:
+Dengan state management, perubahan data dapat secara otomatis diperbarui di UI tanpa perlu pembaruan manual.
 
-1. Buka file `pubspec.yaml`.
-2. Tambahkan dependensi package yang ingin digunakan di dalam bagian `dependencies`:
-   ```yaml
-   dependencies:
-     flutter:
-       sdk: flutter
-     lottie: ^2.0.0
-     google_fonts: ^3.0.0
-   ```
-3. Jalankan perintah berikut di terminal untuk mengunduh dan menginstal package:
-   ```bash
-   flutter pub get
-   ```
+## 2. Apa itu Peruntukan State?
 
-## **Menggunakan Lottie di Flutter**
+Peruntukan state mengacu pada bagaimana dan di mana data (state) diatur dalam aplikasi. Terdapat dua jenis utama:
 
-Lottie memungkinkan kita untuk menampilkan animasi JSON di aplikasi Flutter.
+### a. Global State
 
-### Langkah-langkah:
+State yang dapat diakses di seluruh aplikasi. Contohnya adalah status login pengguna atau tema aplikasi.
 
-1. Tambahkan dependensi `lottie` di dalam `pubspec.yaml`:
-   ```yaml
-   dependencies:
-     lottie: ^2.0.0
-   ```
-2. Jalankan `flutter pub get` untuk mengunduh package.
-3. Impor package dan gunakan widget `Lottie.asset` untuk menampilkan animasi JSON:
+### b. Local State
 
-   ```dart
-   import 'package:lottie/lottie.dart';
+State yang hanya digunakan dalam bagian tertentu dari aplikasi, seperti dalam satu widget atau layar tertentu.
 
-   class MyWidget extends StatelessWidget {
-     @override
-     Widget build(BuildContext context) {
-       return Scaffold(
-         body: Center(
-           child: Lottie.asset('assets/animation.json'), // File JSON animasi
-         ),
-       );
-     }
-   }
-   ```
+## 3. Apa itu GetX?
 
-4. Pastikan file animasi JSON ada di dalam folder `assets` dan tambahkan ke dalam `pubspec.yaml`:
-   ```yaml
-   flutter:
-     assets:
-       - assets/animation.json
-   ```
+GetX adalah library Flutter yang ringan dan efisien untuk:
 
-## **Menggunakan Google Fonts di Flutter**
+- **Manajemen state**: Mengelola perubahan data agar UI responsif tanpa boilerplate.
+- **Manajemen rute**: Navigasi antar layar dengan cara sederhana.
+- **Dependensi**: Mengatur dependensi seperti controller atau layanan.
 
-Dengan menggunakan package **Google Fonts**, kita bisa mengakses berbagai font dari Google Fonts untuk digunakan di aplikasi Flutter.
+### Keuntungan GetX:
 
-### Langkah-langkah:
-
-1. Tambahkan dependensi `google_fonts` di dalam `pubspec.yaml`:
-   ```yaml
-   dependencies:
-     google_fonts: ^6.2.1
-   ```
-2. Jalankan `flutter pub get`.
-3. Impor dan gunakan package `google_fonts` untuk mengubah font teks di aplikasi:
-
-   ```dart
-   import 'package:google_fonts/google_fonts.dart';
-
-   class MyWidget extends StatelessWidget {
-     @override
-     Widget build(BuildContext context) {
-       return Scaffold(
-         body: Center(
-           child: Text(
-             'Hello, Flutter!',
-             style: GoogleFonts.lato(fontSize: 24), // Menggunakan font Lato
-           ),
-         ),
-       );
-     }
-   }
-   ```
-
-## **Navigasi (Routes) di Flutter**
-
-Navigasi memungkinkan kita untuk berpindah antar layar (halaman) di dalam aplikasi Flutter. Anda dapat menggunakan **routes** untuk mengelola halaman-halaman aplikasi.
-
-### Langkah-langkah:
-
-1. Definisikan route di dalam properti `routes` pada widget `MaterialApp`:
-
-   ```dart
-   import 'package:flutter/material.dart';
-
-   void main() {
-     runApp(MyApp());
-   }
-
-   class MyApp extends StatelessWidget {
-     @override
-     Widget build(BuildContext context) {
-       return MaterialApp(
-         title: 'Flutter Demo',
-         initialRoute: '/',  // Mendefinisikan route awal
-         routes: {
-           '/': (context) => HomePage(),  // Route untuk halaman utama
-           '/second': (context) => SecondPage(),  // Route untuk halaman kedua
-         },
-       );
-     }
-   }
-
-   class HomePage extends StatelessWidget {
-     @override
-     Widget build(BuildContext context) {
-       return Scaffold(
-         appBar: AppBar(title: Text('Home Page')),
-         body: Center(
-           child: ElevatedButton(
-             onPressed: () {
-               Navigator.pushNamed(context, '/second');  // Navigasi ke halaman kedua
-             },
-             child: Text('Go to Second Page'),
-           ),
-         ),
-       );
-     }
-   }
-
-   class SecondPage extends StatelessWidget {
-     @override
-     Widget build(BuildContext context) {
-       return Scaffold(
-         appBar: AppBar(title: Text('Second Page')),
-         body: Center(
-           child: ElevatedButton(
-             onPressed: () {
-               Navigator.pop(context);  // Kembali ke halaman sebelumnya
-             },
-             child: Text('Back to Home Page'),
-           ),
-         ),
-       );
-     }
-   }
-   ```
-
-### Penjelasan:
-
-- Pada contoh di atas, kita mendefinisikan dua route:
-  - `'/'` untuk halaman utama (HomePage)
-  - `'/second'` untuk halaman kedua (SecondPage)
-- Untuk berpindah antar halaman, gunakan `Navigator.pushNamed(context, '/second')` untuk menuju ke halaman kedua, dan `Navigator.pop(context)` untuk kembali ke halaman sebelumnya.
+- Tidak memerlukan banyak boilerplate.
+- UI responsif terhadap perubahan data secara otomatis.
+- Ringan dan cepat.
 
 ---
 
-# Konsep Pengembangan Flutter dan Manajemen State
+## 4. Contoh Implementasi GetX
 
-## 1. Callback Function
+### a. Membuat Controller
 
-**Definisi:**  
-Fungsi yang dipanggil kembali setelah suatu proses selesai dilakukan atau ketika suatu peristiwa terjadi.
-
-**Contoh:**
+Controller digunakan untuk mengelola state. Dalam contoh ini, kita membuat controller bernama `CartController`:
 
 ```dart
-void fetchData(Function onComplete) {
-  // Simulasi pengambilan data
-  print("Mengambil data...");
-  onComplete(); // Memanggil fungsi setelah data selesai diambil
-}
+import 'package:get/get.dart';
 
-void main() {
-  fetchData(() {
-    print("Data berhasil diambil!");
+class CartController extends GetxController {
+  final quantity = 0.obs; // State reaktif
+
+  void quantityIncrement() => quantity.value++;
+  void quantityDecrement() => quantity.value--;
+}
+```
+
+Penjelasan:
+
+- `quantity`: Variabel reaktif menggunakan `.obs`, sehingga perubahan nilainya dapat langsung diperbarui di UI.
+- `quantityIncrement`: Fungsi untuk menambah nilai `quantity`.
+- `quantityDecrement`: Fungsi untuk mengurangi nilai `quantity`.
+
+### b. Menggunakan Controller dalam Widget
+
+Berikut adalah implementasi controller di dalam widget:
+
+```dart
+final cartController = CartController();
+
+ProductCard(
+  imageUrl: "assets/images/smartwatch.png",
+  title: "Mi Band 8 Pro - Brand\nNew",
+  price: "\$54.00",
+  quantity: cartController.quantity.value,
+  quantityIncrement: cartController.quantityIncrement,
+  quantityDecrement: cartController.quantityDecrement,
+),
+
+ProductCard(
+  imageUrl: "assets/images/baju.png",
+  title: "Lycra Men’s shirt",
+  price: "\$12.00",
+  quantity: cartController.quantity.value,
+  quantityIncrement: cartController.quantityIncrement,
+  quantityDecrement: cartController.quantityDecrement,
+),
+```
+
+### c. Masalah dalam Kode
+
+Kedua produk berbagi state yang sama (`cartController.quantity`). Jika jumlah barang pada satu produk diubah, produk lain juga akan memperlihatkan perubahan yang sama.
+
+### d. Solusi: Membuat State Terpisah untuk Setiap Produk
+
+Setiap produk harus memiliki state `quantity` sendiri. Berikut adalah solusi menggunakan model `Product`:
+
+#### Membuat Model Produk
+
+```dart
+class Product {
+  String imageUrl;
+  String title;
+  String price;
+  RxInt quantity;
+
+  Product({
+    required this.imageUrl,
+    required this.title,
+    required this.price,
+    required this.quantity,
   });
 }
+
+final productList = [
+  Product(
+    imageUrl: "assets/images/smartwatch.png",
+    title: "Mi Band 8 Pro - Brand\nNew",
+    price: "\$54.00",
+    quantity: 0.obs,
+  ),
+  Product(
+    imageUrl: "assets/images/baju.png",
+    title: "Lycra Men’s shirt",
+    price: "\$12.00",
+    quantity: 0.obs,
+  ),
+];
 ```
 
----
-
-## 2. State
-
-**Definisi:**  
-State adalah data atau kondisi yang dapat berubah dalam suatu aplikasi. State ini menentukan bagaimana tampilan aplikasi dan elemen-elemen interaktif berfungsi.
-
----
-
-## 3. Stateless Widget
-
-**Definisi:**  
-Widget yang **tidak memiliki state yang berubah** selama masa hidupnya. Contoh: widget yang hanya menampilkan teks atau gambar statis.
-
-**Contoh:**
+#### Menggunakan Model dalam Widget
 
 ```dart
-class MyStatelessWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text("Ini adalah Stateless Widget");
-  }
-}
+ProductCard(
+  imageUrl: product.imageUrl,
+  title: product.title,
+  price: product.price,
+  quantity: product.quantity.value,
+  quantityIncrement: () => product.quantity.value++,
+  quantityDecrement: () => product.quantity.value--,
+);
 ```
 
----
-
-## 4. Stateful Widget
-
-**Definisi:**  
-Widget yang memiliki state yang dapat **berubah** ketika aplikasi dijalankan, misalnya pada kasus counter atau tombol yang memengaruhi data.
-
-**Contoh:**
-
-```dart
-class MyStatefulWidget extends StatefulWidget {
-  @override
-  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
-}
-
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  int counter = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text("Counter: $counter"),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              counter++;
-            });
-          },
-          child: Text("Tambah"),
-        ),
-      ],
-    );
-  }
-}
-```
+Dengan pendekatan ini, setiap produk memiliki state `quantity` sendiri.
 
 ---
 
-## 5. setState Method
+## 5. Kesimpulan
 
-**Definisi:**  
-Metode `setState` digunakan untuk memberitahukan Flutter bahwa ada perubahan pada state sehingga UI perlu diperbarui.
-
-**Kelemahan:**
-
-- Tidak efisien untuk aplikasi besar.
-- Membingungkan jika terlalu sering digunakan di widget tree yang kompleks.
-
-**Solusi:**  
-Gunakan **state management** seperti _Provider_, _Bloc_, atau _GetX_.
-
----
-
-## 6. Widget Tree
-
-**Definisi:**  
-Hierarki widget dalam aplikasi Flutter. Widget tree adalah struktur pohon yang menggambarkan bagaimana widget saling berhubungan.
-
-**Contoh:**
-
-```plaintext
-MaterialApp
-  Scaffold
-    AppBar
-    Body
-      Column
-        Text
-        ElevatedButton
-```
-
----
-
-## 7. InheritedWidget
-
-**Definisi:**  
-Widget khusus yang digunakan untuk mengirimkan data (state) ke widget lain di bawahnya dalam widget tree tanpa memerlukan _callback_.
-
-**Kelebihan:**  
-Mempermudah berbagi data ke banyak widget sekaligus.
-
-**Contoh:**
-
-```dart
-class MyInheritedWidget extends InheritedWidget {
-  final String data;
-
-  MyInheritedWidget({
-    required this.data,
-    required Widget child,
-  }) : super(child: child);
-
-  static MyInheritedWidget? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<MyInheritedWidget>();
-  }
-
-  @override
-  bool updateShouldNotify(covariant MyInheritedWidget oldWidget) {
-    return oldWidget.data != data;
-  }
-}
-```
-
----
-
-## 8. Solusi Manajemen State
-
-Flutter memiliki beberapa metode state management yang populer:
-
-### **GetX**
-
-- Ringan dan mudah digunakan.
-- Menggabungkan state management, dependency injection, dan routing.
-
-### **Provider**
-
-- Disarankan oleh tim Flutter.
-- Mudah digunakan untuk aplikasi kecil hingga menengah.
-
-### **Bloc (Business Logic Component)**
-
-- Cocok untuk aplikasi besar.
-- Menggunakan pola arsitektur berbasis stream.
-
----
+- **State Management** adalah konsep penting untuk mengelola data dalam aplikasi.
+- **GetX** mempermudah manajemen state dengan cara yang sederhana, reaktif, dan efisien.
+- Untuk kasus seperti keranjang belanja, penting untuk memisahkan state setiap produk agar tidak saling berbagi data yang tidak relevan.

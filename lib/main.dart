@@ -26,7 +26,8 @@ class MainApp extends StatelessWidget {
         '/cartPage': (context) => const CartPage(),
         '/register': (context) => const RegisterPage(),
         '/home': (context) => const HomePage(),
-        '/detail': (context) => const DetailProduct(),
+        // '/detail': (context) => DetailProduct(
+        //     product: ModalRoute.of(context)?.settings.arguments as Product),
       },
       // home: Scaffold(
       //   appBar: AppBar(

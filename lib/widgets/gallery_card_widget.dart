@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_page/detail.dart';
+import 'package:home_page/model/product_model.dart';
 
 class GalleryCardWidget extends StatelessWidget {
+  final ProductModel product;
   final String imagePath;
   final String title;
   final String price;
@@ -10,6 +13,7 @@ class GalleryCardWidget extends StatelessWidget {
 
   const GalleryCardWidget({
     Key? key,
+    required this.product,
     required this.imagePath,
     required this.title,
     required this.price,

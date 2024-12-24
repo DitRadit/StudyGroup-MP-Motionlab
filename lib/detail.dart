@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:home_page/model/product_model.dart';
 import 'package:home_page/pages/cart_page.dart';
 import 'package:home_page/pages/home_page.dart';
 import 'package:home_page/widgets/appbar_widget.dart';
 
-void main() {
-  runApp(const DetailProduct());
+// Define a model class for product (if not already defined)
+class Product {
+  final String name;
+  final String image;
+  final String description;
+  final double price;
+
+  Product({
+    required this.name,
+    required this.image,
+    required this.description,
+    required this.price,
+  });
 }
 
 class DetailProduct extends StatelessWidget {
-  const DetailProduct({super.key});
+  final ProductModel product;
+
+  const DetailProduct({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +52,15 @@ class DetailProduct extends StatelessWidget {
                           height: 15,
                         ),
                         Image.asset(
-                          "assets/images/Group 1681.png",
+                          product.image,
                           width: double.infinity,
                           height: 401,
-                          // fit: BoxFit.cover,
                         ),
                         SizedBox(
                           height: 15,
                         ),
                         Text(
-                          "Mi Band 8 Pro",
+                          product.name,
                           style: TextStyle(
                             fontSize: 30,
                           ),
@@ -56,7 +69,7 @@ class DetailProduct extends StatelessWidget {
                           height: 15,
                         ),
                         Text(
-                          "\$54.00",
+                          "\$${product.price}",
                           style:
                               TextStyle(fontSize: 20, color: Color(0xFF00623B)),
                         ),
@@ -64,7 +77,7 @@ class DetailProduct extends StatelessWidget {
                           height: 15,
                         ),
                         Text(
-                          "Built for life and made to last, this full-zip corduroy jacket is part of our Nike Life collection. The spacious fit gives you plenty of room to layer underneath, while the soft corduroy keeps it casual and timeless.",
+                          product.description,
                           style: TextStyle(
                             fontSize: 18,
                           ),
@@ -109,12 +122,3 @@ class DetailProduct extends StatelessWidget {
     );
   }
 }
-
-
-//  Align(
-//                 alignment: Alignment.center,
-//                 child: Text("Mi Band 8 Pro",
-//                     style: TextStyle(
-//                       fontSize: 30,
-//                     )),
-//               ),

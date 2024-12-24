@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:home_page/controller/cart_controller.dart';
 import 'package:home_page/pages/home_page.dart';
 import 'package:home_page/pages/invoice_page.dart';
+import 'package:home_page/utils/product_dummy.dart';
 import 'package:home_page/widgets/appbar_widget.dart';
 import 'package:home_page/widgets/custom_big_button.dart';
 import 'package:home_page/widgets/product_card_widget.dart';
@@ -13,7 +14,8 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartController = Get.put(CartController());
+    final CartController cartController = Get.put(CartController());
+
     return Obx(
       () => Scaffold(
         appBar: NavBar(
@@ -27,26 +29,24 @@ class CartPage extends StatelessWidget {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                  child: Column(
-                children: [
-                  ProductCard(
-                    imageUrl: "assets/images/smartwatch.png",
-                    title: "Mi Band 8 Pro - Brand\nNew",
-                    price: "\$54.00",
-                    quantity: cartController.quantity.value,
-                    quantityIncrement: cartController.quantityIncrement,
-                    quantityDecrement: cartController.quantityDecrement,
-                  ),
-                  ProductCard(
-                    imageUrl: "assets/images/baju.png",
-                    title: "Lycra Men’s shirt",
-                    price: "\$12.00",
-                    quantity: cartController.quantity.value,
-                    quantityIncrement: cartController.quantityIncrement,
-                    quantityDecrement: cartController.quantityDecrement,
-                  ),
-                ],
-              )),
+                child: Column(
+                  children: DataDummy.listDummyProducts.map((product) {
+                    final productQuantity =
+                        cartController.getQuantity(product.id);
+
+                    return ProductCard(
+                      imageUrl: product.image,
+                      title: product.name,
+                      price: '\$${product.price.toStringAsFixed(2)}',
+                      quantity: productQuantity,
+                      quantityIncrement: () =>
+                          cartController.incrementQuantity(product.id),
+                      quantityDecrement: () =>
+                          cartController.decrementQuantity(product.id),
+                    );
+                  }).toList(),
+                ),
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(16),

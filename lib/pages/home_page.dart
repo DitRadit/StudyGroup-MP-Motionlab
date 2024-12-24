@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:home_page/detail.dart';
 // import 'package:home_page/detail.dart';
 import 'package:home_page/pages/cart_page.dart';
+import 'package:home_page/utils/product_dummy.dart';
 import 'package:home_page/widgets/gallery_card_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -186,60 +187,41 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 30),
-                                GridView(
-                                  padding: EdgeInsets.all(10),
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 10,
-                                    childAspectRatio: 0.7,
-                                  ),
-                                  scrollDirection: Axis.vertical,
-                                  shrinkWrap: true,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                DetailProduct(),
-                                          ),
-                                        );
-                                      },
-                                      child: GalleryCardWidget(
-                                        imagePath:
-                                            "assets/images/smartwatch.png",
-                                        title: "Mi Band 8 Pro",
-                                        price: "\$54.00",
-                                        icon: Icons.favorite,
-                                        iconColor: Colors.red,
-                                      ),
-                                    ),
-                                    GalleryCardWidget(
-                                      imagePath: "assets/images/baju.png",
-                                      title: "Lycra Men’s shirt",
-                                      price: "\$12.00",
-                                      icon: Icons.favorite,
-                                      iconColor: Colors.grey,
-                                    ),
-                                    GalleryCardWidget(
-                                      imagePath: "assets/images/headphone.png",
-                                      title: "Siberia 800",
-                                      price: "\$45.00",
-                                      icon: Icons.favorite,
-                                      iconColor: Colors.grey,
-                                    ),
-                                    GalleryCardWidget(
-                                      imagePath: "assets/images/shoes.png",
-                                      title: "Strawberry Frappuccino",
-                                      price: "\$35.00",
-                                      icon: Icons.favorite,
-                                      iconColor: Colors.grey,
-                                    ),
-                                  ],
-                                ),
+                                GridView.builder(
+  padding: const EdgeInsets.all(10),
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,
+    crossAxisSpacing: 10,
+    mainAxisSpacing: 10,
+    childAspectRatio: 0.7,
+  ),
+  itemCount: DataDummy.listDummyProducts.length,
+  shrinkWrap: true,
+  physics: const NeverScrollableScrollPhysics(),
+  itemBuilder: (context, index) {
+    final product = DataDummy.listDummyProducts[index];
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailProduct(product: product),
+          ),
+        );
+      },
+      child: GalleryCardWidget(
+        product: product,
+        imagePath: product.image,
+        title: product.name,
+        price: '\$${product.price.toStringAsFixed(2)}',
+        icon: Icons.favorite_border,
+        iconColor: Colors.red,
+      ),
+    );
+  },
+),
+
                               ],
                             ),
                           )

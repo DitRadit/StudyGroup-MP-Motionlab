@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:home_page/controller/login_controller.dart';
 import 'package:home_page/pages/home_page.dart';
 import 'package:home_page/widgets/custom_big_button.dart';
 import 'package:home_page/widgets/custom_text_field_widget.dart';
@@ -9,6 +11,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.white,

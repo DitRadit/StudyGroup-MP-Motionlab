@@ -7,6 +7,7 @@ class CartController extends GetxController {
   RxDouble totalProduct = 0.0.obs;
   RxMap<String, int> quantities = <String, int>{}.obs;
   var cartProducts = <ProductModel>[].obs;
+  
 
   // Increment product quantity
   void incrementQuantity(String productId) {

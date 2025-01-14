@@ -48,11 +48,13 @@ class LoginPage extends StatelessWidget {
               CustomTextFieldWidget(
                 hintText: "Email",
                 icons: Icon(Icons.email_outlined),
+                controller: TextEditingController(),
               ),
               SizedBox(height: 20),
               CustomTextFieldWidget(
                 hintText: "Password",
                 icons: Icon(Icons.lock_outline),
+                controller: TextEditingController(),
               ),
               SizedBox(height: 50),
               CustomBigButton(

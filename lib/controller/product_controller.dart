@@ -6,6 +6,8 @@ class ProductController extends GetxController {
   var favoriteProducts = <String>[].obs;
   var showFavoritesOnly = false.obs;
   var selectedType = 'All'.obs;
+  RxString searchQuery = ''.obs;
+  var allProducts = <ProductModel>[].obs;
 
   bool isFavorite(String productId) {
     return favoriteProducts.contains(productId);
@@ -32,5 +34,18 @@ class ProductController extends GetxController {
     return DataDummy.listDummyProducts
         .where((product) => product.type == selectedType.value)
         .toList();
+  }
+
+  void filterProducts(String query) {
+    searchQuery.value = query;
+    if (query.isEmpty) {
+      filteredProducts.assignAll(allProducts);
+    } else {
+      filteredProducts.assignAll(
+        allProducts.where((product) =>
+            product.name.toLowerCase().contains(query.toLowerCase()) ||
+            product.description.toLowerCase().contains(query.toLowerCase())),
+      );
+    }
   }
 }

@@ -108,7 +108,7 @@ class HomePage extends StatelessWidget {
                                       TextButton(
                                         onPressed: () {
                                           productController.selectedType.value =
-                                              'All'; // Set filter ke All
+                                              'All';
                                         },
                                         style: TextButton.styleFrom(
                                           padding: const EdgeInsets.symmetric(
@@ -134,7 +134,7 @@ class HomePage extends StatelessWidget {
                                       TextButton(
                                         onPressed: () {
                                           productController.selectedType.value =
-                                              'Watch'; // Set filter ke Watch
+                                              'Watch';
                                         },
                                         style: TextButton.styleFrom(
                                           padding: const EdgeInsets.symmetric(
@@ -160,7 +160,7 @@ class HomePage extends StatelessWidget {
                                       TextButton(
                                         onPressed: () {
                                           productController.selectedType.value =
-                                              'Shirt'; // Set filter ke Shirt
+                                              'Shirt';
                                         },
                                         style: TextButton.styleFrom(
                                           padding: const EdgeInsets.symmetric(

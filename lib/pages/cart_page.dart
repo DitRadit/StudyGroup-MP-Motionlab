@@ -15,11 +15,10 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CartController cartController = Get.put(CartController());
-
-    return Obx(
-      () => Scaffold(
+    return Obx(() {
+      return Scaffold(
         appBar: NavBar(
-          text: "MyCart",
+          text: "My Cart",
           routeName: HomePage(),
         ),
         backgroundColor: Colors.white,
@@ -30,7 +29,7 @@ class CartPage extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                  children: DataDummy.listDummyProducts.map((product) {
+                  children: cartController.cartProducts.map((product) {
                     final productQuantity =
                         cartController.getQuantity(product.id);
 
@@ -38,7 +37,8 @@ class CartPage extends StatelessWidget {
                       imageUrl: product.image,
                       title: product.name,
                       price: '\$${product.price.toStringAsFixed(2)}',
-                      quantity: productQuantity,
+                      quantity:
+                          productQuantity,
                       quantityIncrement: () =>
                           cartController.incrementQuantity(product.id),
                       quantityDecrement: () =>
@@ -57,7 +57,7 @@ class CartPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 }

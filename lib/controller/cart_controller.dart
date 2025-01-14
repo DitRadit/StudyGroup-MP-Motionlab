@@ -5,54 +5,55 @@ import 'package:home_page/utils/product_dummy.dart';
 
 class CartController extends GetxController {
   RxDouble totalProduct = 0.0.obs;
-  RxMap<String, int> quantities = <String, int>{}.obs;
+  RxMap<String, int> quantities =
+      <String, int>{}.obs;
+  var cartProducts = <ProductModel>[].obs; 
 
+  // Increment product quantity
   void incrementQuantity(String productId) {
-    if (quantities.containsKey(productId)) {
-      quantities[productId] = quantities[productId]! + 1;
-    } else {
-      quantities[productId] = 1;
-    }
-    update();
+    var product = cartProducts.firstWhere((product) => product.id == productId);
+    int currentQuantity =
+        quantities[productId] ?? 0; 
+    quantities[productId] = currentQuantity + 1; 
   }
 
+  // Decrement product quantity
   void decrementQuantity(String productId) {
-    if (quantities.containsKey(productId)) {
-      if (quantities[productId]! <= 1) {
-        Get.defaultDialog(
-          title: 'Remove Item',
-          middleText: 'Do you want to remove this item from cart?',
-          textConfirm: 'Yes',
-          textCancel: 'No',
-          confirmTextColor: Colors.white,
-          onConfirm: () {
-            quantities.remove(productId);
-            update();
-            Get.back();
-          },
-          buttonColor: const Color(0xFF00623B),
-          contentPadding: const EdgeInsets.all(20),
-          titlePadding: const EdgeInsets.only(top: 20),
-        );
-      } else {
-        quantities[productId] = quantities[productId]! - 1;
-        update();
-      }
+    var product = cartProducts.firstWhere((product) => product.id == productId);
+    int currentQuantity = quantities[productId] ?? 0;
+
+    if (currentQuantity > 1) {
+      quantities[productId] = currentQuantity - 1; 
+    } else {
+      quantities.remove(productId); 
+      cartProducts.remove(product); 
     }
   }
 
+  // Get the quantity of a product
   int getQuantity(String productId) {
-    return quantities[productId] ?? 0;
+    return quantities[productId] ?? 0; 
   }
 
+  // Calculate the total price of the products in the cart
   double calculateTotal() {
     double total = 0.0;
     quantities.forEach((productId, quantity) {
       ProductModel product = DataDummy.listDummyProducts.firstWhere(
         (product) => product.id == productId,
       );
-      total += product.price * quantity;
+      total += product.price * quantity; 
     });
     return total;
+  }
+
+  // Add a product to the cart
+  void addToCart(ProductModel product) {
+    if (quantities.containsKey(product.id)) {
+      incrementQuantity(product.id); 
+    } else {
+      cartProducts.add(product); 
+      quantities[product.id] = 1; 
+    }
   }
 }

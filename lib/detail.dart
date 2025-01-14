@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:home_page/controller/cart_controller.dart';
+import 'package:home_page/controller/product_controller.dart';
 import 'package:home_page/model/product_model.dart';
 import 'package:home_page/pages/cart_page.dart';
 import 'package:home_page/pages/home_page.dart';
 import 'package:home_page/widgets/appbar_widget.dart';
 
-// Define a model class for product (if not already defined)
 class Product {
   final String name;
   final String image;
@@ -21,8 +23,10 @@ class Product {
 
 class DetailProduct extends StatelessWidget {
   final ProductModel product;
+  final ProductController productController = Get.put(ProductController());
+  final CartController cartController = Get.put(CartController());
 
-  const DetailProduct({Key? key, required this.product}) : super(key: key);
+  DetailProduct({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +41,23 @@ class DetailProduct extends StatelessWidget {
                 NavBar(
                   text: "Product",
                   routeName: HomePage(),
-                  icon: Icon(
-                    Icons.favorite,
-                    color: Colors.red,
-                    size: 30,
-                  ),
+                  actions: [
+                    Obx(() {
+                      return IconButton(
+                        icon: Icon(
+                          productController.isFavorite(product.id)
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: productController.isFavorite(product.id)
+                              ? Colors.red
+                              : Colors.grey,
+                        ),
+                        onPressed: () {
+                          productController.toggleFavorite(product);
+                        },
+                      );
+                    }),
+                  ],
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -96,21 +112,27 @@ class DetailProduct extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => CartPage()),
                     );
                   },
-                  child: Container(
-                    padding: EdgeInsets.all(30),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Color(0xFF00623B),
-                    ),
-                    child: Text(
-                      "Add To Bag",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                  child: GestureDetector(
+                    onTap: () {
+                      cartController.addToCart(product); 
+                      Get.to(CartPage());
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(30),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Color(0xFF00623B),
                       ),
-                      textAlign: TextAlign.center,
+                      child: Text(
+                        "Add To Bag",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),

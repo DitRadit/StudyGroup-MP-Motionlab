@@ -1,7 +1,5 @@
 import 'package:home_page/model/product_model.dart';
 
-import '';
-
 class DataDummy {
   static final List<String> listDummyCategories = [
     'All',

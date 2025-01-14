@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:home_page/controller/product_controller.dart';
 import 'package:home_page/detail.dart';
+import 'package:home_page/model/product_model.dart';
 // import 'package:home_page/detail.dart';
 import 'package:home_page/pages/cart_page.dart';
 import 'package:home_page/utils/product_dummy.dart';
@@ -10,6 +13,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ProductController productController = Get.put(ProductController());
     // var size = MediaQuery.of(context).size;
 
     // final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
@@ -102,70 +106,106 @@ class HomePage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          productController.selectedType.value =
+                                              'All'; // Set filter ke All
+                                        },
                                         style: TextButton.styleFrom(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 30),
-                                          backgroundColor:
-                                              const Color(0xFF00623B),
-                                          textStyle: TextStyle(
-                                            fontSize: 16,
-                                          ),
+                                          backgroundColor: productController
+                                                      .selectedType.value ==
+                                                  'All'
+                                              ? const Color(0xFF00623B)
+                                              : Colors.grey.shade300,
                                         ),
-                                        child: const Text(
+                                        child: Text(
                                           'All',
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                            color: productController
+                                                        .selectedType.value ==
+                                                    'All'
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
                                         ),
                                       ),
                                       const SizedBox(width: 20),
                                       TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          productController.selectedType.value =
+                                              'Watch'; // Set filter ke Watch
+                                        },
                                         style: TextButton.styleFrom(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 30),
-                                          backgroundColor:
-                                              const Color(0xFF2F2F2F2),
-                                          textStyle: TextStyle(
-                                            fontSize: 16,
-                                          ),
+                                          backgroundColor: productController
+                                                      .selectedType.value ==
+                                                  'Watch'
+                                              ? const Color(0xFF00623B)
+                                              : Colors.grey.shade300,
                                         ),
-                                        child: const Text(
+                                        child: Text(
                                           'Watch',
-                                          style: TextStyle(color: Colors.black),
+                                          style: TextStyle(
+                                            color: productController
+                                                        .selectedType.value ==
+                                                    'Watch'
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
                                         ),
                                       ),
                                       const SizedBox(width: 20),
                                       TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          productController.selectedType.value =
+                                              'Shirt'; // Set filter ke Shirt
+                                        },
                                         style: TextButton.styleFrom(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 30),
-                                          backgroundColor:
-                                              const Color(0xFF2F2F2F2),
-                                          textStyle: TextStyle(
-                                            fontSize: 16,
-                                          ),
+                                          backgroundColor: productController
+                                                      .selectedType.value ==
+                                                  'Shirt'
+                                              ? const Color(0xFF00623B)
+                                              : Colors.grey.shade300,
                                         ),
-                                        child: const Text(
+                                        child: Text(
                                           'Shirt',
-                                          style: TextStyle(color: Colors.black),
+                                          style: TextStyle(
+                                            color: productController
+                                                        .selectedType.value ==
+                                                    'Shirt'
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
                                         ),
                                       ),
                                       const SizedBox(width: 20),
                                       TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          productController.selectedType.value =
+                                              'Shoes';
+                                        },
                                         style: TextButton.styleFrom(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 30),
-                                          backgroundColor:
-                                              const Color(0xFF2F2F2F2),
-                                          textStyle: TextStyle(
-                                            fontSize: 16,
-                                          ),
+                                          backgroundColor: productController
+                                                      .selectedType.value ==
+                                                  'Shoes'
+                                              ? const Color(0xFF00623B)
+                                              : Colors.grey.shade300,
                                         ),
-                                        child: const Text(
+                                        child: Text(
                                           'Shoes',
-                                          style: TextStyle(color: Colors.black),
+                                          style: TextStyle(
+                                            color: productController
+                                                        .selectedType.value ==
+                                                    'Shoes'
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -187,41 +227,62 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 30),
-                                GridView.builder(
-  padding: const EdgeInsets.all(10),
-  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 2,
-    crossAxisSpacing: 10,
-    mainAxisSpacing: 10,
-    childAspectRatio: 0.7,
-  ),
-  itemCount: DataDummy.listDummyProducts.length,
-  shrinkWrap: true,
-  physics: const NeverScrollableScrollPhysics(),
-  itemBuilder: (context, index) {
-    final product = DataDummy.listDummyProducts[index];
+                                Obx(() {
+                                  List<ProductModel> filteredProducts =
+                                      DataDummy.listDummyProducts
+                                          .where((product) {
+                                    return product.type ==
+                                            productController
+                                                .selectedType.value ||
+                                        productController.selectedType.value ==
+                                            'All';
+                                  }).toList();
 
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailProduct(product: product),
-          ),
-        );
-      },
-      child: GalleryCardWidget(
-        product: product,
-        imagePath: product.image,
-        title: product.name,
-        price: '\$${product.price.toStringAsFixed(2)}',
-        icon: Icons.favorite_border,
-        iconColor: Colors.red,
-      ),
-    );
-  },
-),
+                                  if (productController
+                                      .showFavoritesOnly.value) {
+                                    filteredProducts = productController
+                                        .getFavoriteProducts(filteredProducts);
+                                  }
 
+                                  return GridView.builder(
+                                    padding: const EdgeInsets.all(10),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 10,
+                                      childAspectRatio: 0.8,
+                                    ),
+                                    itemCount: filteredProducts.length,
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      final product = filteredProducts[index];
+
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailProduct(
+                                                      product: product),
+                                            ),
+                                          );
+                                        },
+                                        child: GalleryCardWidget(
+                                          product: product,
+                                          imagePath: product.image,
+                                          title: product.name,
+                                          price:
+                                              '\$${product.price.toStringAsFixed(2)}',
+                                          icon: Icons.favorite,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }),
                               ],
                             ),
                           )
@@ -253,11 +314,22 @@ class HomePage extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              Icon(
-                Icons.favorite_outline,
-                size: 30,
-                color: Colors.grey,
-              ),
+              Obx(() {
+                return IconButton(
+                  icon: Icon(
+                    productController.showFavoritesOnly.value
+                        ? Icons.favorite
+                        : Icons.favorite_outline,
+                    size: 30,
+                    color: productController.showFavoritesOnly.value
+                        ? Colors.red
+                        : Colors.grey,
+                  ),
+                  onPressed: () {
+                    productController.showFavoritesOnly.toggle();
+                  },
+                );
+              }),
               Icon(
                 Icons.person_2_outlined,
                 size: 30,

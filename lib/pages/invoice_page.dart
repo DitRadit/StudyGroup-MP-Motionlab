@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_page/controller/cart_controller.dart';
 import 'package:home_page/pages/cart_page.dart';
 import 'package:home_page/pages/home_page.dart';
 import 'package:home_page/widgets/appbar_widget.dart';
@@ -10,6 +12,7 @@ class InvoicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CartController cartController = Get.put(CartController());
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.white,
@@ -67,17 +70,20 @@ class InvoicePage extends StatelessWidget {
                                     fontWeight: FontWeight.w500),
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                              child: Text(
-                                "\$66.00",
-                                style: GoogleFonts.roboto(
+                            Obx(() {
+                              return Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                                child: Text(
+                                  "\$${cartController.calculateTotal().toStringAsFixed(2)}", // Dynamically show the total price
+                                  style: GoogleFonts.roboto(
                                     color: Colors.black,
                                     fontSize: 28,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              );
+                            }),
                             SizedBox(
                               width: double.infinity,
                               child: Divider(
@@ -249,33 +255,36 @@ class InvoicePage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 14, 0, 0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Total Price",
-                                      style: GoogleFonts.roboto(
-                                        color: Color(0x78000000),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
+                              Obx(() {
+                                final totalPrice =
+                                    cartController.calculateTotal();
+                                return Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Total Price",
+                                        style: GoogleFonts.roboto(
+                                          color: Color(0x78000000),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      "\$66.00",
-                                      style: GoogleFonts.inter(
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
+                                      Text(
+                                        "\$${totalPrice.toStringAsFixed(2)}",
+                                        style: GoogleFonts.inter(
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                    ],
+                                  ),
+                                );
+                              }),
                             ],
                           ),
                         ),

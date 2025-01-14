@@ -6,7 +6,6 @@ class ProductController extends GetxController {
   var favoriteProducts = <String>[].obs;
   var showFavoritesOnly = false.obs;
   var selectedType = 'All'.obs;
-  
 
   bool isFavorite(String productId) {
     return favoriteProducts.contains(productId);
@@ -34,6 +33,4 @@ class ProductController extends GetxController {
         .where((product) => product.type == selectedType.value)
         .toList();
   }
-
-
 }

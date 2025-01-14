@@ -37,8 +37,7 @@ class CartPage extends StatelessWidget {
                       imageUrl: product.image,
                       title: product.name,
                       price: '\$${product.price.toStringAsFixed(2)}',
-                      quantity:
-                          productQuantity,
+                      quantity: productQuantity,
                       quantityIncrement: () =>
                           cartController.incrementQuantity(product.id),
                       quantityDecrement: () =>

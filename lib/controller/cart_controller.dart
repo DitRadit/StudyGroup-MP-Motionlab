@@ -5,16 +5,14 @@ import 'package:home_page/utils/product_dummy.dart';
 
 class CartController extends GetxController {
   RxDouble totalProduct = 0.0.obs;
-  RxMap<String, int> quantities =
-      <String, int>{}.obs;
-  var cartProducts = <ProductModel>[].obs; 
+  RxMap<String, int> quantities = <String, int>{}.obs;
+  var cartProducts = <ProductModel>[].obs;
 
   // Increment product quantity
   void incrementQuantity(String productId) {
     var product = cartProducts.firstWhere((product) => product.id == productId);
-    int currentQuantity =
-        quantities[productId] ?? 0; 
-    quantities[productId] = currentQuantity + 1; 
+    int currentQuantity = quantities[productId] ?? 0;
+    quantities[productId] = currentQuantity + 1;
   }
 
   // Decrement product quantity
@@ -23,16 +21,16 @@ class CartController extends GetxController {
     int currentQuantity = quantities[productId] ?? 0;
 
     if (currentQuantity > 1) {
-      quantities[productId] = currentQuantity - 1; 
+      quantities[productId] = currentQuantity - 1;
     } else {
-      quantities.remove(productId); 
-      cartProducts.remove(product); 
+      quantities.remove(productId);
+      cartProducts.remove(product);
     }
   }
 
   // Get the quantity of a product
   int getQuantity(String productId) {
-    return quantities[productId] ?? 0; 
+    return quantities[productId] ?? 0;
   }
 
   // Calculate the total price of the products in the cart
@@ -42,7 +40,7 @@ class CartController extends GetxController {
       ProductModel product = DataDummy.listDummyProducts.firstWhere(
         (product) => product.id == productId,
       );
-      total += product.price * quantity; 
+      total += product.price * quantity;
     });
     return total;
   }
@@ -50,10 +48,10 @@ class CartController extends GetxController {
   // Add a product to the cart
   void addToCart(ProductModel product) {
     if (quantities.containsKey(product.id)) {
-      incrementQuantity(product.id); 
+      incrementQuantity(product.id);
     } else {
-      cartProducts.add(product); 
-      quantities[product.id] = 1; 
+      cartProducts.add(product);
+      quantities[product.id] = 1;
     }
   }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:home_page/controller/productApiController.dart';
 import 'package:home_page/controller/product_controller.dart';
 import 'package:home_page/detail.dart';
 import 'package:home_page/model/product_model.dart';
+import 'package:home_page/model/product_model_api.dart';
 // import 'package:home_page/detail.dart';
 import 'package:home_page/pages/cart_page.dart';
 import 'package:home_page/utils/product_dummy.dart';
@@ -14,10 +16,13 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProductController productController = Get.put(ProductController());
-    // var size = MediaQuery.of(context).size;
+    final ProductApiController productApiController =
+        Get.put(ProductApiController());
 
     // final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
     // final double itemWidth = size.width / 2;
+
+    productApiController.fetchCategoryList();
 
     return MaterialApp(
       home: Scaffold(
@@ -98,153 +103,93 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 40),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    children: [
-                                      TextButton(
-                                        onPressed: () {
-                                          productController.selectedType.value =
-                                              'All';
-                                        },
-                                        style: TextButton.styleFrom(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 30),
-                                          backgroundColor: productController
-                                                      .selectedType.value ==
-                                                  'All'
-                                              ? const Color(0xFF00623B)
-                                              : Colors.grey.shade300,
-                                        ),
-                                        child: Text(
-                                          'All',
-                                          style: TextStyle(
-                                            color: productController
-                                                        .selectedType.value ==
-                                                    'All'
-                                                ? Colors.white
-                                                : Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 20),
-                                      TextButton(
-                                        onPressed: () {
-                                          productController.selectedType.value =
-                                              'Watch';
-                                        },
-                                        style: TextButton.styleFrom(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 30),
-                                          backgroundColor: productController
-                                                      .selectedType.value ==
-                                                  'Watch'
-                                              ? const Color(0xFF00623B)
-                                              : Colors.grey.shade300,
-                                        ),
-                                        child: Text(
-                                          'Watch',
-                                          style: TextStyle(
-                                            color: productController
-                                                        .selectedType.value ==
-                                                    'Watch'
-                                                ? Colors.white
-                                                : Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 20),
-                                      TextButton(
-                                        onPressed: () {
-                                          productController.selectedType.value =
-                                              'Shirt';
-                                        },
-                                        style: TextButton.styleFrom(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 30),
-                                          backgroundColor: productController
-                                                      .selectedType.value ==
-                                                  'Shirt'
-                                              ? const Color(0xFF00623B)
-                                              : Colors.grey.shade300,
-                                        ),
-                                        child: Text(
-                                          'Shirt',
-                                          style: TextStyle(
-                                            color: productController
-                                                        .selectedType.value ==
-                                                    'Shirt'
-                                                ? Colors.white
-                                                : Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 20),
-                                      TextButton(
-                                        onPressed: () {
-                                          productController.selectedType.value =
-                                              'Shoes';
-                                        },
-                                        style: TextButton.styleFrom(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 30),
-                                          backgroundColor: productController
-                                                      .selectedType.value ==
-                                                  'Shoes'
-                                              ? const Color(0xFF00623B)
-                                              : Colors.grey.shade300,
-                                        ),
-                                        child: Text(
-                                          'Shoes',
-                                          style: TextStyle(
-                                            color: productController
-                                                        .selectedType.value ==
-                                                    'Shoes'
-                                                ? Colors.white
-                                                : Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                          Obx(() {
+                            if (productController.isLoading.value) {
+                              return CircularProgressIndicator(); 
+                            }
+
+                            return Row(
                               children: [
-                                Text(
-                                  "Our Best Seller",
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: productApiController
+                                          .categories.value!
+                                          .map((category) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: TextButton(
+                                            onPressed: () {
+                                              productApiController
+                                                  .fetchProductsByCategory(
+                                                      category);
+                                              productApiController.selectedType
+                                                  .value = category;
+                                            },
+                                            style: TextButton.styleFrom(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 30),
+                                              backgroundColor:
+                                                  productApiController
+                                                              .selectedType
+                                                              .value ==
+                                                          category
+                                                      ? const Color(0xFF00623B)
+                                                      : Colors.grey.shade300,
+                                            ),
+                                            child: Text(
+                                              category,
+                                              style: TextStyle(
+                                                color: productController
+                                                            .selectedType
+                                                            .value ==
+                                                        category
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ),
                                   ),
                                 ),
-                                const SizedBox(height: 30),
-                                Obx(() {
-                                  List<ProductModel> filteredProducts =
-                                      DataDummy.listDummyProducts
-                                          .where((product) {
-                                    return product.type ==
-                                            productController
-                                                .selectedType.value ||
-                                        productController.selectedType.value ==
-                                            'All';
-                                  }).toList();
+                              ],
+                            );
+                          }),
+                          const SizedBox(height: 30),
+                          // Product Section
+                          Obx(() {
+                            if (productApiController.isLoading.value) {
+                              return CircularProgressIndicator(); 
+                            }
 
-                                  if (productController
-                                      .showFavoritesOnly.value) {
-                                    filteredProducts = productController
-                                        .getFavoriteProducts(filteredProducts);
-                                  }
+                            if (productApiController.errorMessage.isNotEmpty) {
+                              return Center(
+                                  child: Text(productApiController.errorMessage
+                                      .value)); 
+                            }
 
-                                  return GridView.builder(
+                            List<ProductElement> displayedProducts =
+                                (productApiController.products.value
+                                    as List<ProductElement>);
+
+                            return SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Our Best Seller",
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 30),
+                                  GridView.builder(
                                     padding: const EdgeInsets.all(10),
                                     gridDelegate:
                                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -253,39 +198,28 @@ class HomePage extends StatelessWidget {
                                       mainAxisSpacing: 10,
                                       childAspectRatio: 0.8,
                                     ),
-                                    itemCount: filteredProducts.length,
+                                    itemCount: displayedProducts.length,
                                     shrinkWrap: true,
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) {
-                                      final product = filteredProducts[index];
-
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DetailProduct(
-                                                      product: product),
-                                            ),
-                                          );
-                                        },
-                                        child: GalleryCardWidget(
-                                          product: product,
-                                          imagePath: product.image,
-                                          title: product.name,
-                                          price:
-                                              '\$${product.price.toStringAsFixed(2)}',
-                                          icon: Icons.favorite,
-                                        ),
+                                      final product = displayedProducts[index];
+                                      return GalleryCardWidget(
+                                        product: product,
+                                        imagePath: product.images.isNotEmpty
+                                            ? product.images[0]
+                                            : '',
+                                        title: product.title,
+                                        price:
+                                            '\$${product.price.toStringAsFixed(2)}',
+                                        icon: Icons.favorite,
                                       );
                                     },
-                                  );
-                                }),
-                              ],
-                            ),
-                          )
+                                  ),
+                                ],
+                              ),
+                            );
+                          })
                         ],
                       ),
                     ),

@@ -1,23 +1,20 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:home_page/model/product_model.dart';
-import 'package:home_page/utils/product_dummy.dart';
+import 'package:home_page/model/product_model_api.dart'; 
 
 class CartController extends GetxController {
   RxDouble totalProduct = 0.0.obs;
-  RxMap<String, int> quantities = <String, int>{}.obs;
-  var cartProducts = <ProductModel>[].obs;
-  
+  RxMap<int, int> quantities = <int, int>{}.obs;  
+  var cartProducts = <ProductElement>[].obs;
 
   // Increment product quantity
-  void incrementQuantity(String productId) {
+  void incrementQuantity(int productId) {
     var product = cartProducts.firstWhere((product) => product.id == productId);
     int currentQuantity = quantities[productId] ?? 0;
     quantities[productId] = currentQuantity + 1;
   }
 
   // Decrement product quantity
-  void decrementQuantity(String productId) {
+  void decrementQuantity(int productId) {
     var product = cartProducts.firstWhere((product) => product.id == productId);
     int currentQuantity = quantities[productId] ?? 0;
 
@@ -29,16 +26,14 @@ class CartController extends GetxController {
     }
   }
 
-  // Get the quantity of a product
-  int getQuantity(String productId) {
+  int getQuantity(int productId) {
     return quantities[productId] ?? 0;
   }
 
-  // Calculate the total price of the products in the cart
   double calculateTotal() {
     double total = 0.0;
     quantities.forEach((productId, quantity) {
-      ProductModel product = DataDummy.listDummyProducts.firstWhere(
+      ProductElement product = cartProducts.firstWhere(
         (product) => product.id == productId,
       );
       total += product.price * quantity;
@@ -46,8 +41,7 @@ class CartController extends GetxController {
     return total;
   }
 
-  // Add a product to the cart
-  void addToCart(ProductModel product) {
+  void addToCart(ProductElement product) {
     if (quantities.containsKey(product.id)) {
       incrementQuantity(product.id);
     } else {

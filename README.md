@@ -1,152 +1,80 @@
-# State Management dan Implementasi GetX
+# Penggunaan API di Flutter dengan Dio
 
-## 1. Apa itu State Management?
+Dokumentasi ini memberikan penjelasan mengenai API, service, controller, serta bagaimana cara mengonsumsi API di Flutter menggunakan library Dio.
 
-State management adalah cara mengelola data (state) dalam sebuah aplikasi agar tetap konsisten dan sinkron di berbagai bagian aplikasi. State bisa berupa data seperti:
+## 1. Apa itu API?
 
-- Jumlah barang dalam keranjang belanja
-- Status login pengguna
-- Tema aplikasi (terang/gelap)
+**API (Application Programming Interface)** adalah kumpulan aturan dan protokol yang memungkinkan aplikasi untuk berkomunikasi dengan aplikasi lainnya. API memungkinkan perangkat lunak untuk bertukar data dan menjalankan fungsi tertentu tanpa perlu mengetahui implementasi internal aplikasi yang satu dengan lainnya.
 
-Dengan state management, perubahan data dapat secara otomatis diperbarui di UI tanpa perlu pembaruan manual.
+Contoh penggunaan API adalah ketika aplikasi mengakses data dari server menggunakan _REST API_.
 
-## 2. Apa itu Peruntukan State?
+## 2. Apa itu Service di Flutter?
 
-Peruntukan state mengacu pada bagaimana dan di mana data (state) diatur dalam aplikasi. Terdapat dua jenis utama:
+Dalam konteks Flutter, **service** adalah kelas yang bertanggung jawab untuk melakukan tugas tertentu, seperti mengelola logika aplikasi atau mengakses data dari sumber eksternal (misalnya API atau database lokal). Service membantu memisahkan logika bisnis dan pengelolaan data dari UI (User Interface) sehingga kode menjadi lebih bersih dan lebih mudah dikelola.
 
-### a. Global State
+## 3. Apa itu Controller di Flutter?
 
-State yang dapat diakses di seluruh aplikasi. Contohnya adalah status login pengguna atau tema aplikasi.
+**Controller** di Flutter merujuk pada objek yang mengelola interaksi antara UI dan logika aplikasi. Misalnya, `TextEditingController` digunakan untuk mengontrol dan mengelola teks dalam `TextField`. Dalam arsitektur yang lebih besar (seperti MVC atau MVVM), controller berfungsi untuk mengatur alur data antara model dan view.
 
-### b. Local State
+## 4. Cara Mengonsumsi API dengan Dio di Flutter
 
-State yang hanya digunakan dalam bagian tertentu dari aplikasi, seperti dalam satu widget atau layar tertentu.
+`Dio` adalah library HTTP di Flutter yang sering digunakan untuk melakukan request API karena memiliki banyak fitur, seperti interceptors, konfigurasi global, file downloading/uploading, dll.
 
-## 3. Apa itu GetX?
+# Alur Consume API dengan Dio di Flutter
 
-GetX adalah library Flutter yang ringan dan efisien untuk:
+Berikut adalah alur langkah-langkah untuk mengonsumsi API menggunakan Dio dengan metode GET di Flutter.
 
-- **Manajemen state**: Mengelola perubahan data agar UI responsif tanpa boilerplate.
-- **Manajemen rute**: Navigasi antar layar dengan cara sederhana.
-- **Dependensi**: Mengatur dependensi seperti controller atau layanan.
+## 1. **Menambahkan Dependensi Dio**
 
-### Keuntungan GetX:
+- Tambahkan Dio ke dalam `pubspec.yaml`:
+  ```yaml
+  dependencies:
+    dio: ^5.0.0
+  ```
 
-- Tidak memerlukan banyak boilerplate.
-- UI responsif terhadap perubahan data secara otomatis.
-- Ringan dan cepat.
+## 2. **Import Dio di File Dart**
 
----
+- Impor Dio di file Dart tempat Anda ingin membuat request:
+  ```dart
+  import 'package:dio/dio.dart';
+  ```
 
-## 4. Contoh Implementasi GetX
+## 3. **Buat Instance Dio**
 
-### a. Membuat Controller
+- Membuat instance Dio yang akan digunakan untuk mengirim request:
+  ```dart
+  Dio dio = Dio();
+  ```
 
-Controller digunakan untuk mengelola state. Dalam contoh ini, kita membuat controller bernama `CartController`:
+## 4. **Kirim Request GET**
 
-```dart
-import 'package:get/get.dart';
+- Kirim request GET ke endpoint API yang diinginkan dan tangani responsenya:
+  ```dart
+  Response response = await dio.get('URL_API');
+  ```
 
-class CartController extends GetxController {
-  final quantity = 0.obs; // State reaktif
+## 5. **Tangani Respons API**
 
-  void quantityIncrement() => quantity.value++;
-  void quantityDecrement() => quantity.value--;
-}
-```
+- Proses data yang diterima dari API (misalnya, parsing JSON):
+  ```dart
+  var data = response.data;
+  ```
 
-Penjelasan:
+## 6. **Menampilkan Data di UI**
 
-- `quantity`: Variabel reaktif menggunakan `.obs`, sehingga perubahan nilainya dapat langsung diperbarui di UI.
-- `quantityIncrement`: Fungsi untuk menambah nilai `quantity`.
-- `quantityDecrement`: Fungsi untuk mengurangi nilai `quantity`.
+- Gunakan `FutureBuilder` atau cara lain untuk menampilkan data yang diterima dari API ke dalam UI Flutter.
 
-### b. Menggunakan Controller dalam Widget
+## 7. **Menangani Error**
 
-Berikut adalah implementasi controller di dalam widget:
+- Tangani error yang mungkin terjadi selama request menggunakan `try-catch`:
+  ```dart
+  try {
+    Response response = await dio.get('URL_API');
+  } catch (e) {
+    print('Error: $e');
+  }
+  ```
 
-```dart
-final cartController = CartController();
+## 8. **Menjalankan Aplikasi**
 
-ProductCard(
-  imageUrl: "assets/images/smartwatch.png",
-  title: "Mi Band 8 Pro - Brand\nNew",
-  price: "\$54.00",
-  quantity: cartController.quantity.value,
-  quantityIncrement: cartController.quantityIncrement,
-  quantityDecrement: cartController.quantityDecrement,
-),
-
-ProductCard(
-  imageUrl: "assets/images/baju.png",
-  title: "Lycra Men’s shirt",
-  price: "\$12.00",
-  quantity: cartController.quantity.value,
-  quantityIncrement: cartController.quantityIncrement,
-  quantityDecrement: cartController.quantityDecrement,
-),
-```
-
-### c. Masalah dalam Kode
-
-Kedua produk berbagi state yang sama (`cartController.quantity`). Jika jumlah barang pada satu produk diubah, produk lain juga akan memperlihatkan perubahan yang sama.
-
-### d. Solusi: Membuat State Terpisah untuk Setiap Produk
-
-Setiap produk harus memiliki state `quantity` sendiri. Berikut adalah solusi menggunakan model `Product`:
-
-#### Membuat Model Produk
-
-```dart
-class Product {
-  String imageUrl;
-  String title;
-  String price;
-  RxInt quantity;
-
-  Product({
-    required this.imageUrl,
-    required this.title,
-    required this.price,
-    required this.quantity,
-  });
-}
-
-final productList = [
-  Product(
-    imageUrl: "assets/images/smartwatch.png",
-    title: "Mi Band 8 Pro - Brand\nNew",
-    price: "\$54.00",
-    quantity: 0.obs,
-  ),
-  Product(
-    imageUrl: "assets/images/baju.png",
-    title: "Lycra Men’s shirt",
-    price: "\$12.00",
-    quantity: 0.obs,
-  ),
-];
-```
-
-#### Menggunakan Model dalam Widget
-
-```dart
-ProductCard(
-  imageUrl: product.imageUrl,
-  title: product.title,
-  price: product.price,
-  quantity: product.quantity.value,
-  quantityIncrement: () => product.quantity.value++,
-  quantityDecrement: () => product.quantity.value--,
-);
-```
-
-Dengan pendekatan ini, setiap produk memiliki state `quantity` sendiri.
-
----
-
-## 5. Kesimpulan
-
-- **State Management** adalah konsep penting untuk mengelola data dalam aplikasi.
-- **GetX** mempermudah manajemen state dengan cara yang sederhana, reaktif, dan efisien.
-- Untuk kasus seperti keranjang belanja, penting untuk memisahkan state setiap produk agar tidak saling berbagi data yang tidak relevan.
+- Jalankan aplikasi dengan `flutter run` dan pastikan data ditampilkan dengan benar setelah request API berhasil.

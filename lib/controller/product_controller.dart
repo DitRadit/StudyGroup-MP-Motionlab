@@ -1,38 +1,50 @@
 import 'package:get/get.dart';
-import 'package:home_page/model/product_model.dart';
-import 'package:home_page/utils/product_dummy.dart';
+// import 'package:home_page/model/product_model.dart';
+import '../model/product_model_api.dart';
+// import 'package:home_page/service/product_service.dart';
+// import 'package:home_page/utils/product_dummy.dart';
 
 class ProductController extends GetxController {
   var favoriteProducts = <String>[].obs;
   var showFavoritesOnly = false.obs;
   var selectedType = 'All'.obs;
   RxString searchQuery = ''.obs;
-  var allProducts = <ProductModel>[].obs;
+  var allProducts = <ProductElement>[].obs;
 
-  bool isFavorite(String productId) {
-    return favoriteProducts.contains(productId);
-  }
+  var productList = <Product>[].obs;
+  // var product = Product().obs;
+  var isLoading = true.obs;
 
-  List<ProductModel> getFavoriteProducts(List<ProductModel> allProducts) {
+  // bool isFavorite(String productId) {
+  //   return favoriteProducts.contains(productId);
+  // }
+
+  List<ProductElement> getFavoriteProducts(List<ProductElement> allProducts) {
     return allProducts
         .where((product) => favoriteProducts.contains(product.id))
         .toList();
   }
 
-  void toggleFavorite(ProductModel product) {
+  var favorites = <int>{}.obs;
+
+  bool isFavorite(int productId) {
+    return favorites.contains(productId);
+  }
+
+  void toggleFavorite(ProductElement product) {
     if (isFavorite(product.id)) {
-      favoriteProducts.remove(product.id);
+      favorites.remove(product.id);
     } else {
-      favoriteProducts.add(product.id);
+      favorites.add(product.id);
     }
   }
 
-  List<ProductModel> get filteredProducts {
+  List<ProductElement> get filteredProducts {
     if (selectedType.value == 'All') {
-      return DataDummy.listDummyProducts;
+      return allProducts;
     }
-    return DataDummy.listDummyProducts
-        .where((product) => product.type == selectedType.value)
+    return allProducts
+        .where((product) => product.category == selectedType.value)
         .toList();
   }
 
@@ -43,7 +55,7 @@ class ProductController extends GetxController {
     } else {
       filteredProducts.assignAll(
         allProducts.where((product) =>
-            product.name.toLowerCase().contains(query.toLowerCase()) ||
+            product.title.toLowerCase().contains(query.toLowerCase()) ||
             product.description.toLowerCase().contains(query.toLowerCase())),
       );
     }

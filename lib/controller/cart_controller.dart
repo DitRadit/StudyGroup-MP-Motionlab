@@ -30,23 +30,23 @@ class CartController extends GetxController {
     return quantities[productId] ?? 0;
   }
 
-  double calculateTotal() {
-    double total = 0.0;
-    quantities.forEach((productId, quantity) {
-      ProductElement product = cartProducts.firstWhere(
-        (product) => product.id == productId,
-      );
-      total += product.price * quantity;
-    });
-    return total;
-  }
+  // double calculateTotal() {
+  //   double total = 0.0;
+  //   quantities.forEach((productId, quantity) {
+  //     ProductElement product = cartProducts.firstWhere(
+  //       (product) => product.id == productId,
+  //     );
+  //     total += product.price * quantity;
+  //   });
+  //   return total;
+  // }
 
-  void addToCart(ProductElement product) {
-    if (quantities.containsKey(product.id)) {
-      incrementQuantity(product.id);
-    } else {
-      cartProducts.add(product);
-      quantities[product.id] = 1;
-    }
-  }
+  // void addToCart(ProductElement product) {
+  //   if (quantities.containsKey(product.id)) {
+  //     incrementQuantity(product.id);
+  //   } else {
+  //     cartProducts.add(product);
+  //     quantities[product.id] = 1;
+  //   }
+  // }
 }

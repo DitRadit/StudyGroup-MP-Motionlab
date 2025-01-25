@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_page/controller/productApiController.dart';
-import 'package:home_page/controller/product_controller.dart';
+// import 'package:home_page/controller/product_controller.dart';
 import 'package:home_page/detail.dart';
-import 'package:home_page/model/product_model.dart';
-import 'package:home_page/model/product_model_api.dart';
-// import 'package:home_page/detail.dart';
+// import 'package:home_page/model/product_model.dart';
 import 'package:home_page/pages/cart_page.dart';
-import 'package:home_page/utils/product_dummy.dart';
+// import 'package:home_page/utils/product_dummy.dart';
 import 'package:home_page/widgets/gallery_card_widget.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
   @override
   Widget build(BuildContext context) {
-    final ProductController productController = Get.put(ProductController());
     final ProductApiController productApiController =
-        Get.put(ProductApiController());
-
-    // final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    // final double itemWidth = size.width / 2;
-
-    productApiController.fetchCategoryList();
-
+        Get.put(ProductApiController()); // Mengambil controller
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -45,11 +34,11 @@ class HomePage extends StatelessWidget {
                   width: 50,
                   height: 50,
                 ),
-                IconButton(
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const CartPage())),
-                  icon: Icon(Icons.shopping_bag_outlined),
-                ),
+                // IconButton(
+                //   onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (context) => const CartPage())),
+                //   icon: Icon(Icons.shopping_bag_outlined),
+                // ),
               ],
             ),
           ),
@@ -103,93 +92,50 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 40),
-                          Obx(() {
-                            if (productController.isLoading.value) {
-                              return CircularProgressIndicator(); 
-                            }
-
-                            return Row(
-                              children: [
-                                Expanded(
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      children: productApiController
-                                          .categories.value!
-                                          .map((category) {
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: TextButton(
-                                            onPressed: () {
-                                              productApiController
-                                                  .fetchProductsByCategory(
-                                                      category);
-                                              productApiController.selectedType
-                                                  .value = category;
-                                            },
-                                            style: TextButton.styleFrom(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 30),
-                                              backgroundColor:
-                                                  productApiController
-                                                              .selectedType
-                                                              .value ==
-                                                          category
-                                                      ? const Color(0xFF00623B)
-                                                      : Colors.grey.shade300,
-                                            ),
-                                            child: Text(
-                                              category,
-                                              style: TextStyle(
-                                                color: productController
-                                                            .selectedType
-                                                            .value ==
-                                                        category
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: [],
                                   ),
                                 ),
-                              ],
-                            );
-                          }),
+                              ),
+                            ],
+                          ),
                           const SizedBox(height: 30),
-                          // Product Section
-                          Obx(() {
-                            if (productApiController.isLoading.value) {
-                              return CircularProgressIndicator(); 
-                            }
-
-                            if (productApiController.errorMessage.isNotEmpty) {
-                              return Center(
-                                  child: Text(productApiController.errorMessage
-                                      .value)); 
-                            }
-
-                            List<ProductElement> displayedProducts =
-                                (productApiController.products.value
-                                    as List<ProductElement>);
-
-                            return SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Our Best Seller",
-                                    style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                          SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Our Best Seller",
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  const SizedBox(height: 30),
-                                  GridView.builder(
+                                ),
+                                const SizedBox(height: 30),
+                                Obx(() {
+                                  if (productApiController.isLoading.value) {
+                                    // Jika data sedang loading
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+
+                                  // Ambil produk yang sudah di-fetch dari controller
+                                  final products = productApiController
+                                          .product.value.products ??
+                                      [];
+
+                                  // Jika tidak ada produk
+                                  if (products.isEmpty) {
+                                    return Center(
+                                        child: Text('No products available.'));
+                                  }
+
+                                  return GridView.builder(
                                     padding: const EdgeInsets.all(10),
                                     gridDelegate:
                                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -198,28 +144,39 @@ class HomePage extends StatelessWidget {
                                       mainAxisSpacing: 10,
                                       childAspectRatio: 0.8,
                                     ),
-                                    itemCount: displayedProducts.length,
+                                    itemCount: products.length,
                                     shrinkWrap: true,
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) {
-                                      final product = displayedProducts[index];
-                                      return GalleryCardWidget(
-                                        product: product,
-                                        imagePath: product.images.isNotEmpty
-                                            ? product.images[0]
-                                            : '',
-                                        title: product.title,
-                                        price:
-                                            '\$${product.price.toStringAsFixed(2)}',
-                                        icon: Icons.favorite,
+                                      final product = products[index];
+
+                                      // Pastikan untuk mengembalikan GestureDetector
+                                      return GestureDetector(
+                                        onTap: () {
+                                          if (product.id != null) {
+                                            Get.toNamed('/detailProduct',
+                                                arguments: {'id': product.id});
+                                          } else {
+                                            print('Product ID is null');
+                                          }
+                                        },
+                                        child: GalleryCardWidget(
+                                          imagePath: product.thumbnail ??
+                                              'https://via.placeholder.com/150',
+                                          title: product.title ??
+                                              'Unknown Product',
+                                          price:
+                                              '\$${product.price?.toStringAsFixed(2) ?? '0.00'}',
+                                          icon: Icons.favorite,
+                                        ),
                                       );
                                     },
-                                  ),
-                                ],
-                              ),
-                            );
-                          })
+                                  );
+                                }),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -248,22 +205,22 @@ class HomePage extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              Obx(() {
-                return IconButton(
-                  icon: Icon(
-                    productController.showFavoritesOnly.value
-                        ? Icons.favorite
-                        : Icons.favorite_outline,
-                    size: 30,
-                    color: productController.showFavoritesOnly.value
-                        ? Colors.red
-                        : Colors.grey,
-                  ),
-                  onPressed: () {
-                    productController.showFavoritesOnly.toggle();
-                  },
-                );
-              }),
+              // Obx(() {
+              //   return IconButton(
+              //     icon: Icon(
+              //       productController.showFavoritesOnly.value
+              //           ? Icons.favorite
+              //           : Icons.favorite_outline,
+              //       size: 30,
+              //       color: productController.showFavoritesOnly.value
+              //           ? Colors.red
+              //           : Colors.grey,
+              //     ),
+              //     onPressed: () {
+              //       productController.showFavoritesOnly.toggle();
+              //     },
+              //   );
+              // }),
               Icon(
                 Icons.person_2_outlined,
                 size: 30,

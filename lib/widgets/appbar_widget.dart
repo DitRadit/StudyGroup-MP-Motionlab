@@ -21,7 +21,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final favoriteController = Get.put(ProductController());
+    // final favoriteController = Get.put(ProductController());
 
     return AppBar(
         leading: Padding(

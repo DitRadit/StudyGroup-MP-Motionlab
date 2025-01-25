@@ -1,26 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_page/controller/cart_controller.dart';
+import 'package:home_page/controller/detailProductApiController.dart';
 import 'package:home_page/controller/productApiController.dart';
-import 'package:home_page/controller/product_controller.dart';
+// import 'package:home_page/controller/product_controller.dart';
 import 'package:home_page/model/product_model_api.dart';
 import 'package:home_page/pages/cart_page.dart';
 import 'package:home_page/pages/home_page.dart';
 import 'package:home_page/widgets/appbar_widget.dart';
 
+class Product {
+  final String name;
+  final String image;
+  final String description;
+  final double price;
+
+  Product({
+    required this.name,
+    required this.image,
+    required this.description,
+    required this.price,
+  });
+}
+
 class DetailProduct extends StatelessWidget {
-  final int productId;
-  final ProductElement product;
-  final ProductController productController = Get.put(ProductController());
-  final ProductApiController productApiController =
-      Get.put(ProductApiController());
+  final DetailProductController detailController =
+      Get.put(DetailProductController());
   final CartController cartController = Get.put(CartController());
 
-  DetailProduct({Key? key, required this.product, required this.productId})
-      : super(key: key);
   @override
   Widget build(BuildContext context) {
-    productApiController.fetchSingleProduct(productId); 
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -31,81 +40,61 @@ class DetailProduct extends StatelessWidget {
               NavBar(
                 text: "Product",
                 routeName: HomePage(),
-                actions: [
-                  Obx(() {
-                    return IconButton(
-                      icon: Icon(
-                        productController.isFavorite(product.id)
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: productController.isFavorite(product.id)
-                            ? Colors.red
-                            : Colors.grey,
-                      ),
-                      onPressed: () {
-                        productController.toggleFavorite(product);
-                      },
-                    );
-                  }),
-                ],
+                actions: [],
               ),
               Expanded(
                 child: Obx(() {
-                  if (productApiController.isLoading.value) {
+                  if (detailController.isLoading.value) {
                     return Center(child: CircularProgressIndicator());
+                  }
+
+                  if (detailController.errorMessage.isNotEmpty) {
+                    return Center(
+                        child: Text(detailController.errorMessage.value));
+                  }
+
+                  // Jika produk berhasil dimuat
+                  final product = detailController.detailProduct.value;
+                  if (product.id == null) {
+                    return Center(child: Text('Product not found.'));
                   }
 
                   return SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: 15,
-                        ),
+                        SizedBox(height: 15),
                         Image.network(
-                          product.images[0], 
+                          (product.images?.isNotEmpty == true &&
+                                  product.images![0].isNotEmpty)
+                              ? product.images![0]
+                              : 'https://via.placeholder.com/150',
                           width: double.infinity,
                           height: 401,
                         ),
-                        SizedBox(
-                          height: 15,
-                        ),
+                        SizedBox(height: 15),
                         Text(
-                          product.title,
-                          style: TextStyle(
-                            fontSize: 30,
-                          ),
+                          product.title ?? 'Unknown Product',
+                          style: TextStyle(fontSize: 30),
                         ),
-                        SizedBox(
-                          height: 15,
-                        ),
+                        SizedBox(height: 15),
                         Text(
-                          "\$${product.price}",
+                          "\$${product.price?.toStringAsFixed(2) ?? '0.00'}",
                           style:
                               TextStyle(fontSize: 20, color: Color(0xFF00623B)),
                         ),
-                        SizedBox(
-                          height: 15,
-                        ),
+                        SizedBox(height: 15),
                         Text(
-                          product.description,
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
+                          product.description ?? 'No description available',
+                          style: TextStyle(fontSize: 18),
                         ),
                       ],
                     ),
                   );
                 }),
               ),
-              SizedBox(
-                height: 15,
-              ),
+              SizedBox(height: 15),
               GestureDetector(
-                onTap: () {
-                  cartController.addToCart(product);
-                  Get.to(CartPage());
-                },
                 child: Container(
                   padding: EdgeInsets.all(30),
                   width: double.infinity,
@@ -116,10 +105,9 @@ class DetailProduct extends StatelessWidget {
                   child: Text(
                     "Add To Bag",
                     style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
                 ),

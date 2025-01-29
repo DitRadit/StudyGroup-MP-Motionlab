@@ -98,7 +98,78 @@ class HomePage extends StatelessWidget {
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
-                                    children: [],
+                                    children: [
+                                      Obx(() {
+                                        if (productApiController
+                                            .categories.isEmpty) {
+                                          return const Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        }
+
+                                        return Row(
+                                          children: [
+                                            Expanded(
+                                              child: SingleChildScrollView(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                child: Row(
+                                                  children: List.generate(
+                                                      productApiController
+                                                          .categories
+                                                          .length, (index) {
+                                                    String category =
+                                                        productApiController
+                                                            .categories[index];
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              right: 20),
+                                                      child: TextButton(
+                                                        onPressed: () {
+                                                          productApiController
+                                                                  .selectedCategory =
+                                                              category;
+                                                          productApiController
+                                                              .fetchProductsByCategory(
+                                                                  category);
+                                                        },
+                                                        style: TextButton
+                                                            .styleFrom(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                      30),
+                                                          backgroundColor:
+                                                              productApiController
+                                                                          .selectedCategory ==
+                                                                      category
+                                                                  ? const Color(
+                                                                      0xFF00623B)
+                                                                  : Colors.grey
+                                                                      .shade300,
+                                                        ),
+                                                        child: Text(
+                                                          category,
+                                                          style: TextStyle(
+                                                            color: productApiController
+                                                                        .selectedCategory ==
+                                                                    category
+                                                                ? Colors.white
+                                                                : Colors.black,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      })
+                                    ],
                                   ),
                                 ),
                               ),
@@ -119,19 +190,16 @@ class HomePage extends StatelessWidget {
                                 const SizedBox(height: 30),
                                 Obx(() {
                                   if (productApiController.isLoading.value) {
-                                    // Jika data sedang loading
-                                    return Center(
+                                    return const Center(
                                         child: CircularProgressIndicator());
                                   }
 
-                                  // Ambil produk yang sudah di-fetch dari controller
                                   final products = productApiController
                                           .product.value.products ??
                                       [];
 
-                                  // Jika tidak ada produk
                                   if (products.isEmpty) {
-                                    return Center(
+                                    return const Center(
                                         child: Text('No products available.'));
                                   }
 
@@ -150,8 +218,6 @@ class HomePage extends StatelessWidget {
                                         const NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) {
                                       final product = products[index];
-
-                                      // Pastikan untuk mengembalikan GestureDetector
                                       return GestureDetector(
                                         onTap: () {
                                           if (product.id != null) {
@@ -173,7 +239,7 @@ class HomePage extends StatelessWidget {
                                       );
                                     },
                                   );
-                                }),
+                                })
                               ],
                             ),
                           )

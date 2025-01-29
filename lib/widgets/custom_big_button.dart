@@ -11,18 +11,21 @@ class CustomBigButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final double width;
   final double height;
+  final VoidCallback? onTap;
 
-  const CustomBigButton(
-      {super.key,
-      required this.text,
-      this.routeName,
-      this.backgroundColor = const Color(0xFF00623B),
-      this.textColor = Colors.white,
-      this.fontSize = 20,
-      this.padding = const EdgeInsets.all(16),
-      this.onPressed,
-      this.width = double.infinity,
-      this.height = 55.0});
+  const CustomBigButton({
+    super.key,
+    required this.text,
+    this.routeName,
+    this.backgroundColor = const Color(0xFF00623B),
+    this.textColor = Colors.white,
+    this.fontSize = 20,
+    this.padding = const EdgeInsets.all(16),
+    this.onPressed,
+    this.width = double.infinity,
+    this.height = 55.0,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

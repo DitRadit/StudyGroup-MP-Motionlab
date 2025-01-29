@@ -11,6 +11,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loginController = Get.put(LoginController());
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.white,
@@ -48,19 +49,28 @@ class LoginPage extends StatelessWidget {
               CustomTextFieldWidget(
                 hintText: "Email",
                 icons: Icon(Icons.email_outlined),
-                controller: TextEditingController(),
+                controller: loginController.usernameController,
               ),
               SizedBox(height: 20),
               CustomTextFieldWidget(
                 hintText: "Password",
                 icons: Icon(Icons.lock_outline),
-                controller: TextEditingController(),
+                controller: loginController.passwordController,
               ),
               SizedBox(height: 50),
-              CustomBigButton(
-                text: "Login",
-                routeName: HomePage(),
+              Obx(
+                () => CustomBigButton(
+                  text: loginController.isLoading.value
+                      ? "Loading..."
+                      : "Login", // Use .value to access the reactive variable
+                  onTap: loginController.isLoading.value
+                      ? null // Disable the button while loading
+                      : () async {
+                          await loginController.login();
+                        },
+                ),
               ),
+
               // ElevatedButton(
               //   style: ButtonStyle(),
               //   onPressed: () {

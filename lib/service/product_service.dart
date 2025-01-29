@@ -27,4 +27,28 @@ class ProductService {
       return throw Exception(e);
     }
   }
+
+  Future<Product?> getProductsByCategory(String category) async {
+    try {
+      final response = await dio.get('$url/products/category/$category');
+      if (response.statusCode == 200) {
+        return Product.fromJson(response.data);
+      }
+      return null;
+    } catch (e) {
+      return throw Exception(e);
+    }
+  }
+
+  Future<List<String>?> getCategoryList() async {
+    try {
+      final response = await dio.get('$url/products/categories');
+      if (response.statusCode == 200) {
+        return List<String>.from(response.data);
+      }
+      return null;
+    } catch (e) {
+      return throw Exception(e);
+    }
+  }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 class ProductCard extends StatelessWidget {
   final String imageUrl;
@@ -62,12 +62,14 @@ class ProductCard extends StatelessWidget {
                         children: [
                           Text(
                             title,
-                            style: GoogleFonts.roboto(fontSize: 14),
+                            style:
+                                TextStyle(fontFamily: 'Roboto', fontSize: 14),
                           ),
                           SizedBox(height: 10),
                           Text(
                             price,
-                            style: GoogleFonts.roboto(
+                            style: TextStyle(
+                              fontFamily: 'Roboto',
                               fontSize: 14,
                               color: Color(0xFF00623B),
                             ),

@@ -1,59 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 class CustomBigButton extends StatelessWidget {
   final String text;
-  final Widget? routeName;
+  final Function() onTap;
   final Color backgroundColor;
   final Color textColor;
   final double fontSize;
   final EdgeInsetsGeometry padding;
-  final VoidCallback? onPressed;
   final double width;
   final double height;
-  final VoidCallback? onTap;
 
   const CustomBigButton({
     super.key,
     required this.text,
-    this.routeName,
+    required this.onTap,
     this.backgroundColor = const Color(0xFF00623B),
     this.textColor = Colors.white,
     this.fontSize = 20,
     this.padding = const EdgeInsets.all(16),
-    this.onPressed,
     this.width = double.infinity,
     this.height = 55.0,
-    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(backgroundColor),
-          padding: MaterialStateProperty.all(padding),
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          )),
-          minimumSize: MaterialStateProperty.all(Size(width, 50)),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(8),
         ),
-        onPressed: () {
-          if (routeName != null) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => routeName!),
-            );
-          }
-        },
-        child: Text(
-          text,
-          style: GoogleFonts.roboto(
-            fontSize: fontSize,
-            color: textColor,
-            fontWeight: FontWeight.bold,
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+              fontFamily: 'Roboto',
+              fontSize: fontSize,
+              color: textColor,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
-        ));
+        ),
+      ),
+    );
   }
 }

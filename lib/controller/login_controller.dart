@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:home_page/main.dart';
+// import 'package:home_page/main.dart';
 import 'package:home_page/model/user_model.dart';
+import 'package:home_page/routes/appPages.dart';
 import '../constant/constant.dart';
 
 class LoginController extends GetxController {
@@ -25,7 +26,7 @@ class LoginController extends GetxController {
       if (response.statusCode == 200) {
         final data = UserModel.fromJson(response.data);
         Get.snackbar('Success', 'Welcome, ${data.firstName} ');
-        Get.offAllNamed('/home');
+        Get.offAllNamed(Routes.HOME);
       } else {
         Get.snackbar('Error', 'Failed Login');
       }

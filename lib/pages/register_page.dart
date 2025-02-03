@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import 'package:home_page/pages/login_page.dart';
+import 'package:home_page/routes/appPages.dart';
 import 'package:home_page/widgets/custom_big_button.dart';
 import 'package:home_page/widgets/custom_text_field_widget.dart';
 
@@ -21,24 +22,23 @@ class RegisterPage extends StatelessWidget {
               Center(
                 child: Text(
                   "Register",
-                  style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
-                  )),
+                  ),
                 ),
               ),
               SizedBox(height: 10),
               Center(
                 child: Text(
                   "Create your account for Happy Shopping",
-                  style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                      fontSize: 18,
-                      color: Color(0xFF707070),
-                      fontWeight: FontWeight.normal,
-                    ),
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 18,
+                    color: Color(0xFF707070),
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
               ),
@@ -64,8 +64,10 @@ class RegisterPage extends StatelessWidget {
               ),
               SizedBox(height: 50),
               CustomBigButton(
-                text: "Register",
-                routeName: LoginPage(),
+                text: 'Register',
+                onTap: () {
+                  Get.offAndToNamed(Routes.LOGIN);
+                },
               ),
               SizedBox(height: 10),
               Row(

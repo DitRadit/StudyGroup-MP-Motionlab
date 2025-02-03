@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_page/controller/login_controller.dart';
-import 'package:home_page/pages/home_page.dart';
+import 'package:home_page/routes/appPages.dart';
+// import 'package:home_page/pages/home_page.dart';
 import 'package:home_page/widgets/custom_big_button.dart';
 import 'package:home_page/widgets/custom_text_field_widget.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -23,26 +23,29 @@ class LoginPage extends StatelessWidget {
             children: [
               Center(
                 child: SizedBox(
-                  child: Image.asset(
-                      height: 280,
-                      width: double.infinity,
-                      'assets/images/loginimg.png'),
-                ),
+                    child: Image.asset(
+                  'assets/images/loginimg.png',
+                  height: 280,
+                  width: double.infinity,
+                )),
               ),
               Text(
                 "Welcome!",
-                style: GoogleFonts.roboto(
-                  textStyle: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: .5),
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: .5,
                 ),
               ),
               Text(
                 "Happy Shopping All",
-                style: GoogleFonts.roboto(
-                  textStyle: TextStyle(
-                      color: Colors.black, letterSpacing: .5, fontSize: 18),
+                style: TextStyle(
+                  color: Color(0xFF707070),
+                  fontFamily: 'Roboto',
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: .5,
                 ),
               ),
               SizedBox(height: 20),
@@ -58,19 +61,12 @@ class LoginPage extends StatelessWidget {
                 controller: loginController.passwordController,
               ),
               SizedBox(height: 50),
-              Obx(
-                () => CustomBigButton(
-                  text: loginController.isLoading.value
-                      ? "Loading..."
-                      : "Login", // Use .value to access the reactive variable
-                  onTap: loginController.isLoading.value
-                      ? null // Disable the button while loading
-                      : () async {
-                          await loginController.login();
-                        },
-                ),
+              CustomBigButton(
+                text: 'Login',
+                onTap: () {
+                  loginController.login();
+                },
               ),
-
               // ElevatedButton(
               //   style: ButtonStyle(),
               //   onPressed: () {
@@ -114,9 +110,9 @@ class LoginPage extends StatelessWidget {
                 Text("Don't have an account?",
                     style: TextStyle(fontSize: 14, color: Colors.black)),
                 SizedBox(width: 20),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/register');
+                TextButton(
+                  onPressed: () {
+                    Get.offNamed(Routes.REGISTER);
                   },
                   child: Text(
                     "Register",

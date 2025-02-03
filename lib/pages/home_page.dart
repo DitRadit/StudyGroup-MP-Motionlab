@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_page/controller/productApiController.dart';
 // import 'package:home_page/controller/product_controller.dart';
-import 'package:home_page/detail.dart';
+import 'package:home_page/pages/detail.dart';
 // import 'package:home_page/model/product_model.dart';
 import 'package:home_page/pages/cart_page.dart';
+import 'package:home_page/routes/appPages.dart';
 // import 'package:home_page/utils/product_dummy.dart';
 import 'package:home_page/widgets/gallery_card_widget.dart';
 
@@ -95,84 +96,78 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: [
                               Expanded(
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    children: [
-                                      Obx(() {
-                                        if (productApiController
-                                            .categories.isEmpty) {
-                                          return const Center(
-                                              child:
-                                                  CircularProgressIndicator());
-                                        }
+                                  child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: [
+                                          Obx(() {
+                                            if (productApiController
+                                                .categories.isEmpty) {
+                                              return const Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            }
 
-                                        return Row(
-                                          children: [
-                                            Expanded(
-                                              child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: Row(
-                                                  children: List.generate(
+                                            return SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: Row(
+                                                children: List.generate(
+                                                    productApiController
+                                                        .categories
+                                                        .length, (index) {
+                                                  String category =
                                                       productApiController
-                                                          .categories
-                                                          .length, (index) {
-                                                    String category =
+                                                          .categories[index];
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 20),
+                                                    child: TextButton(
+                                                      onPressed: () {
                                                         productApiController
-                                                            .categories[index];
-                                                    return Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: 20),
-                                                      child: TextButton(
-                                                        onPressed: () {
-                                                          productApiController
-                                                                  .selectedCategory =
-                                                              category;
-                                                          productApiController
-                                                              .fetchProductsByCategory(
-                                                                  category);
-                                                        },
-                                                        style: TextButton
-                                                            .styleFrom(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      30),
-                                                          backgroundColor:
-                                                              productApiController
-                                                                          .selectedCategory ==
-                                                                      category
-                                                                  ? const Color(
-                                                                      0xFF00623B)
-                                                                  : Colors.grey
-                                                                      .shade300,
-                                                        ),
-                                                        child: Text(
-                                                          category,
-                                                          style: TextStyle(
-                                                            color: productApiController
-                                                                        .selectedCategory ==
-                                                                    category
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                          ),
+                                                                .selectedCategory
+                                                                .value =
+                                                            category; 
+                                                        productApiController
+                                                            .fetchProductsByCategory(
+                                                                category);
+                                                      },
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 30),
+                                                        backgroundColor: productApiController
+                                                                    .selectedCategory
+                                                                    .value ==
+                                                                category
+                                                            ? const Color(
+                                                                0xFF00623B) 
+                                                            : Colors.grey
+                                                                .shade300, 
+                                                      ),
+                                                      child: Text(
+                                                        category,
+                                                        style: TextStyle(
+                                                          color: productApiController
+                                                                      .selectedCategory
+                                                                      .value ==
+                                                                  category
+                                                              ? Colors
+                                                                  .white 
+                                                              : Colors
+                                                                  .black, 
                                                         ),
                                                       ),
-                                                    );
-                                                  }),
-                                                ),
+                                                    ),
+                                                  );
+                                                }),
                                               ),
-                                            ),
-                                          ],
-                                        );
-                                      })
-                                    ],
-                                  ),
-                                ),
-                              ),
+                                            );
+                                          })
+                                        ],
+                                      ))),
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -210,7 +205,7 @@ class HomePage extends StatelessWidget {
                                       crossAxisCount: 2,
                                       crossAxisSpacing: 10,
                                       mainAxisSpacing: 10,
-                                      childAspectRatio: 0.8,
+                                      childAspectRatio: 0.6,
                                     ),
                                     itemCount: products.length,
                                     shrinkWrap: true,
@@ -221,7 +216,7 @@ class HomePage extends StatelessWidget {
                                       return GestureDetector(
                                         onTap: () {
                                           if (product.id != null) {
-                                            Get.toNamed('/detailProduct',
+                                            Get.toNamed(Routes.DETAIL_PRODUCT,
                                                 arguments: {'id': product.id});
                                           } else {
                                             print('Product ID is null');

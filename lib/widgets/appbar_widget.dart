@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:home_page/controller/product_controller.dart';
+// import 'package:get/get.dart';
+// import 'package:google_fonts/google_fonts.dart';
+// import 'package:home_page/controller/product_controller.dart';
 import 'package:home_page/model/product_model.dart';
 
 class NavBar extends StatelessWidget implements PreferredSizeWidget {
@@ -44,7 +44,8 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         title: Text(
           text,
-          style: GoogleFonts.roboto(
+          style: TextStyle(
+            fontFamily: 'Roboto',
             fontSize: 22,
             color: Colors.black,
             fontWeight: FontWeight.bold,

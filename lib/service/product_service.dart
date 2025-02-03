@@ -40,15 +40,29 @@ class ProductService {
     }
   }
 
-  Future<List<String>?> getCategoryList() async {
+  Future<List<String>> getCategoryList() async {
     try {
       final response = await dio.get('$url/products/categories');
+
       if (response.statusCode == 200) {
-        return List<String>.from(response.data);
+        print("Fetched categories: ${response.data}"); 
+
+        List<String> categoryNames = [];
+        for (var category in response.data) {
+          if (category['name'] != null) {
+            categoryNames.add(category['name']);
+          }
+        }
+
+        return categoryNames;
+      } else {
+        print(
+            "Error: Failed to fetch categories. Status code: ${response.statusCode}");
+        return [];
       }
-      return null;
     } catch (e) {
-      return throw Exception(e);
+      print("Error: ${e.toString()}");
+      return []; 
     }
   }
 }

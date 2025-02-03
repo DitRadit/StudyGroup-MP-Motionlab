@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:home_page/controller/productApiController.dart';
+// import 'package:get/get.dart';
+// import 'package:google_fonts/google_fonts.dart';
+// import 'package:home_page/controller/productApiController.dart';
 
 class GalleryCardWidget extends StatelessWidget {
   final String imagePath;
@@ -62,7 +62,7 @@ class GalleryCardWidget extends StatelessWidget {
                   alignment: AlignmentDirectional(-1, 0),
                   child: Text(
                     title,
-                    style: GoogleFonts.raleway(fontSize: 14),
+                    style: TextStyle(fontFamily: 'Raleway', fontSize: 14),
                   ),
                 ),
                 Row(
@@ -71,7 +71,8 @@ class GalleryCardWidget extends StatelessWidget {
                   children: [
                     Text(
                       price,
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
                         fontSize: 18,
                         color: const Color(0xFF00623B),
                       ),

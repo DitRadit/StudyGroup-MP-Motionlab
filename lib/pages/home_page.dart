@@ -211,6 +211,11 @@ class HomePage extends StatelessWidget {
                                         const NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) {
                                       final product = products[index];
+                                      bool isFavorite = productApiController
+                                          .favoriteProducts
+                                          .any((favoriteProduct) =>
+                                              favoriteProduct.id == product.id);
+
                                       return GestureDetector(
                                         onTap: () {
                                           if (product.id != null) {
@@ -227,7 +232,25 @@ class HomePage extends StatelessWidget {
                                               'Unknown Product',
                                           price:
                                               '\$${product.price?.toStringAsFixed(2) ?? '0.00'}',
-                                          icon: Icons.favorite,
+                                          icon: IconButton(
+                                            icon: Icon(
+                                              isFavorite
+                                                  ? Icons.favorite
+                                                  : Icons.favorite_border,
+                                              color: isFavorite
+                                                  ? Colors.red
+                                                  : Colors.grey,
+                                            ),
+                                            onPressed: () {
+                                              if (isFavorite) {
+                                                productApiController
+                                                    .removeFavorite(product);
+                                              } else {
+                                                productApiController
+                                                    .addFavorite(product);
+                                              }
+                                            },
+                                          ),
                                         ),
                                       );
                                     },

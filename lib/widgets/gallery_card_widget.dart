@@ -7,7 +7,7 @@ class GalleryCardWidget extends StatelessWidget {
   final String imagePath;
   final String title;
   final String price;
-  final IconData icon;
+  final Widget icon;
   final Color iconColor;
 
   const GalleryCardWidget({
@@ -77,6 +77,7 @@ class GalleryCardWidget extends StatelessWidget {
                         color: const Color(0xFF00623B),
                       ),
                     ),
+                    icon, // Use the icon widget here
                   ],
                 ),
               ],

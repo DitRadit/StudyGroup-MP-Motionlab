@@ -27,6 +27,8 @@ class DetailProduct extends StatelessWidget {
   final DetailProductController detailController =
       Get.put(DetailProductController());
   final CartController cartController = Get.put(CartController());
+  final ProductApiController productApiController =
+      Get.put(ProductApiController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +39,11 @@ class DetailProduct extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              NavBar(
-                text: "Product",
-                routeName: HomePage(),
-                actions: [],
-              ),
+              // NavBar(
+              //   text: "Product",
+              //   rightIcon: Icons.favorite,
+              //   rightAction: () => productApiController.toggleFavorite(),
+              // ),
               Expanded(
                 child: Obx(() {
                   if (detailController.isLoading.value) {

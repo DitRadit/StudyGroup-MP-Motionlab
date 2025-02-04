@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_page/controller/productApiController.dart';
 // import 'package:home_page/controller/product_controller.dart';
-import 'package:home_page/pages/detail.dart';
+// import 'package:home_page/pages/detail.dart';
 // import 'package:home_page/model/product_model.dart';
-import 'package:home_page/pages/cart_page.dart';
+// import 'package:home_page/pages/cart_page.dart';
 import 'package:home_page/routes/appPages.dart';
 // import 'package:home_page/utils/product_dummy.dart';
 import 'package:home_page/widgets/gallery_card_widget.dart';
@@ -125,9 +125,8 @@ class HomePage extends StatelessWidget {
                                                     child: TextButton(
                                                       onPressed: () {
                                                         productApiController
-                                                                .selectedCategory
-                                                                .value =
-                                                            category; 
+                                                            .selectedCategory
+                                                            .value = category;
                                                         productApiController
                                                             .fetchProductsByCategory(
                                                                 category);
@@ -138,14 +137,15 @@ class HomePage extends StatelessWidget {
                                                             const EdgeInsets
                                                                 .symmetric(
                                                                 horizontal: 30),
-                                                        backgroundColor: productApiController
-                                                                    .selectedCategory
-                                                                    .value ==
-                                                                category
-                                                            ? const Color(
-                                                                0xFF00623B) 
-                                                            : Colors.grey
-                                                                .shade300, 
+                                                        backgroundColor:
+                                                            productApiController
+                                                                        .selectedCategory
+                                                                        .value ==
+                                                                    category
+                                                                ? const Color(
+                                                                    0xFF00623B)
+                                                                : Colors.grey
+                                                                    .shade300,
                                                       ),
                                                       child: Text(
                                                         category,
@@ -154,10 +154,8 @@ class HomePage extends StatelessWidget {
                                                                       .selectedCategory
                                                                       .value ==
                                                                   category
-                                                              ? Colors
-                                                                  .white 
-                                                              : Colors
-                                                                  .black, 
+                                                              ? Colors.white
+                                                              : Colors.black,
                                                         ),
                                                       ),
                                                     ),
@@ -282,11 +280,16 @@ class HomePage extends StatelessWidget {
               //     },
               //   );
               // }),
-              Icon(
-                Icons.person_2_outlined,
-                size: 30,
-                color: Colors.grey,
-              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.person_2_outlined,
+                  size: 30,
+                  color: Colors.grey,
+                ),
+                onPressed: () {
+                  Get.toNamed(Routes.PROFILE);
+                },
+              )
             ],
           ),
         ),

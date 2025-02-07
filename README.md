@@ -35,17 +35,6 @@ Shared Preferences adalah cara sederhana untuk menyimpan data berbasis key-value
 
 ---
 
-## **Perbedaan Local Storage dan Shared Preferences**
-
-| **Aspek**          | **Local Storage (SQLite, Hive)** | **Shared Preferences**   |
-| ------------------ | -------------------------------- | ------------------------ |
-| Data yang Disimpan | Data besar dan kompleks          | Data kecil dan sederhana |
-| Struktur Data      | Tabel atau Key-Value             | Key-Value                |
-| Kinerja            | Cepat untuk data besar           | Cepat untuk data kecil   |
-| Use Case           | Riwayat, cache, data aplikasi    | Pengaturan, preferensi   |
-
----
-
 ## **Contoh Implementasi Shared Preferences**
 
 ### **1. Menambahkan Dependency**

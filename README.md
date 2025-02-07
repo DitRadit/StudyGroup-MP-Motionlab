@@ -116,12 +116,3 @@ Future<void> saveData() async {
 }
 ```
 
----
-
-## **Kesimpulan**
-
-- **Shared Preferences:** Pilihan terbaik untuk menyimpan data kecil seperti preferensi pengguna.
-- **Local Storage (SQLite, Hive):** Lebih cocok untuk data besar dan kompleks yang memerlukan struktur yang baik.
-
-Pilih metode penyimpanan yang sesuai dengan kebutuhan aplikasi Anda untuk memastikan performa dan pengalaman pengguna yang optimal.
-

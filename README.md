@@ -1,80 +1,138 @@
-# Penggunaan API di Flutter dengan Dio
+# Local Storage dan Shared Preferences di Flutter
 
-Dokumentasi ini memberikan penjelasan mengenai API, service, controller, serta bagaimana cara mengonsumsi API di Flutter menggunakan library Dio.
+## **Pengertian**
 
-## 1. Apa itu API?
+### **1. Local Storage di Flutter**
 
-**API (Application Programming Interface)** adalah kumpulan aturan dan protokol yang memungkinkan aplikasi untuk berkomunikasi dengan aplikasi lainnya. API memungkinkan perangkat lunak untuk bertukar data dan menjalankan fungsi tertentu tanpa perlu mengetahui implementasi internal aplikasi yang satu dengan lainnya.
+Local storage mengacu pada berbagai metode untuk menyimpan data langsung di perangkat pengguna tanpa memerlukan koneksi internet.
 
-Contoh penggunaan API adalah ketika aplikasi mengakses data dari server menggunakan _REST API_.
+#### **Jenis Local Storage di Flutter:**
 
-## 2. Apa itu Service di Flutter?
+- **SQLite:** Database relasional yang ringan untuk menyimpan data terstruktur dalam bentuk tabel.
+- **Hive:** NoSQL database yang cepat dan ringan.
+- **File System:** Menyimpan data langsung dalam file yang dapat diakses kembali saat aplikasi dijalankan.
 
-Dalam konteks Flutter, **service** adalah kelas yang bertanggung jawab untuk melakukan tugas tertentu, seperti mengelola logika aplikasi atau mengakses data dari sumber eksternal (misalnya API atau database lokal). Service membantu memisahkan logika bisnis dan pengelolaan data dari UI (User Interface) sehingga kode menjadi lebih bersih dan lebih mudah dikelola.
+#### **Kapan Digunakan:**
 
-## 3. Apa itu Controller di Flutter?
+- Untuk menyimpan data yang besar atau kompleks.
+- Contoh: daftar kontak, riwayat transaksi, atau konfigurasi aplikasi yang dinamis.
 
-**Controller** di Flutter merujuk pada objek yang mengelola interaksi antara UI dan logika aplikasi. Misalnya, `TextEditingController` digunakan untuk mengontrol dan mengelola teks dalam `TextField`. Dalam arsitektur yang lebih besar (seperti MVC atau MVVM), controller berfungsi untuk mengatur alur data antara model dan view.
+---
 
-## 4. Cara Mengonsumsi API dengan Dio di Flutter
+### **2. Shared Preferences di Flutter**
 
-`Dio` adalah library HTTP di Flutter yang sering digunakan untuk melakukan request API karena memiliki banyak fitur, seperti interceptors, konfigurasi global, file downloading/uploading, dll.
+Shared Preferences adalah cara sederhana untuk menyimpan data berbasis key-value secara lokal di perangkat. Flutter menyediakan paket `shared_preferences` untuk mempermudah pengelolaan ini.
 
-# Alur Consume API dengan Dio di Flutter
+#### **Fitur Shared Preferences:**
 
-Berikut adalah alur langkah-langkah untuk mengonsumsi API menggunakan Dio dengan metode GET di Flutter.
+- Cocok untuk menyimpan data kecil dan sederhana (String, int, double, bool, dan List String).
+- Data tetap ada meskipun aplikasi ditutup atau perangkat restart.
 
-## 1. **Menambahkan Dependensi Dio**
+#### **Kapan Digunakan:**
 
-- Tambahkan Dio ke dalam `pubspec.yaml`:
-  ```yaml
-  dependencies:
-    dio: ^5.0.0
-  ```
+- Menyimpan preferensi pengguna.
+- Contoh: tema aplikasi (dark mode), bahasa pilihan, atau status login.
 
-## 2. **Import Dio di File Dart**
+---
 
-- Impor Dio di file Dart tempat Anda ingin membuat request:
-  ```dart
-  import 'package:dio/dio.dart';
-  ```
+## **Perbedaan Local Storage dan Shared Preferences**
 
-## 3. **Buat Instance Dio**
+| **Aspek**          | **Local Storage (SQLite, Hive)** | **Shared Preferences**   |
+| ------------------ | -------------------------------- | ------------------------ |
+| Data yang Disimpan | Data besar dan kompleks          | Data kecil dan sederhana |
+| Struktur Data      | Tabel atau Key-Value             | Key-Value                |
+| Kinerja            | Cepat untuk data besar           | Cepat untuk data kecil   |
+| Use Case           | Riwayat, cache, data aplikasi    | Pengaturan, preferensi   |
 
-- Membuat instance Dio yang akan digunakan untuk mengirim request:
-  ```dart
-  Dio dio = Dio();
-  ```
+---
 
-## 4. **Kirim Request GET**
+## **Contoh Implementasi Shared Preferences**
 
-- Kirim request GET ke endpoint API yang diinginkan dan tangani responsenya:
-  ```dart
-  Response response = await dio.get('URL_API');
-  ```
+### **1. Menambahkan Dependency**
 
-## 5. **Tangani Respons API**
+Tambahkan dependency `shared_preferences` ke file `pubspec.yaml`:
 
-- Proses data yang diterima dari API (misalnya, parsing JSON):
-  ```dart
-  var data = response.data;
-  ```
+```yaml
+dependencies:
+  shared_preferences: ^2.0.13
+```
 
-## 6. **Menampilkan Data di UI**
+### **2. Contoh Kode Simpan dan Ambil Data**
 
-- Gunakan `FutureBuilder` atau cara lain untuk menampilkan data yang diterima dari API ke dalam UI Flutter.
+#### **Menyimpan Data ke Shared Preferences**
 
-## 7. **Menangani Error**
+```dart
+import 'package:shared_preferences/shared_preferences.dart';
 
-- Tangani error yang mungkin terjadi selama request menggunakan `try-catch`:
-  ```dart
-  try {
-    Response response = await dio.get('URL_API');
-  } catch (e) {
-    print('Error: $e');
-  }
-  ```
+Future<void> saveData(String key, String value) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString(key, value);
+}
+```
 
-## 8. **Menjalankan Aplikasi**
+#### **Mengambil Data dari Shared Preferences**
 
-- Jalankan aplikasi dengan `flutter run` dan pastikan data ditampilkan dengan benar setelah request API berhasil.
+```dart
+Future<String?> getData(String key) async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString(key);
+}
+```
+
+### **3. Menggunakan Fungsi di Widget Flutter**
+
+```dart
+ElevatedButton(
+  onPressed: () async {
+    await saveData('username', 'BojongRobot');
+    final username = await getData('username');
+    print('Username yang tersimpan: $username');
+  },
+  child: Text('Simpan dan Ambil Data'),
+)
+```
+
+---
+
+## **Contoh Implementasi Local Storage dengan Hive**
+
+### **1. Menambahkan Dependency**
+
+Tambahkan dependency `hive` dan `hive_flutter`:
+
+```yaml
+dependencies:
+  hive: ^2.0.5
+  hive_flutter: ^1.1.0
+```
+
+### **2. Inisialisasi Hive**
+
+```dart
+import 'package:hive_flutter/hive_flutter.dart';
+
+void main() async {
+  await Hive.initFlutter();
+  runApp(MyApp());
+}
+```
+
+### **3. Membuka dan Menggunakan Box**
+
+```dart
+Future<void> saveData() async {
+  var box = await Hive.openBox('myBox');
+  box.put('key', 'BojongRobot');
+  print('Data tersimpan: ${box.get('key')}');
+}
+```
+
+---
+
+## **Kesimpulan**
+
+- **Shared Preferences:** Pilihan terbaik untuk menyimpan data kecil seperti preferensi pengguna.
+- **Local Storage (SQLite, Hive):** Lebih cocok untuk data besar dan kompleks yang memerlukan struktur yang baik.
+
+Pilih metode penyimpanan yang sesuai dengan kebutuhan aplikasi Anda untuk memastikan performa dan pengalaman pengguna yang optimal.
+

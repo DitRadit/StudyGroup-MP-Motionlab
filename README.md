@@ -20,23 +20,23 @@ dart pub global activate flutterfire_cli
 ## **Langkah 2: Konfigurasi Aplikasi Flutter untuk Menggunakan Firebase**
 Gunakan FlutterFire CLI untuk mengonfigurasi aplikasi Flutter agar terhubung ke Firebase.
 
-Dari direktori proyek Flutter Anda, jalankan perintah berikut untuk memulai konfigurasi aplikasi:
+Dari direktori proyek Flutter, jalankan perintah berikut untuk memulai konfigurasi aplikasi:
 ```bash
 flutterfire configure
 ```
 
-## **Langkah 3: Inisialisasi Firebase di Aplikasi Anda**
-Dari direktori proyek Flutter Anda, tambahkan plugin inti Firebase dengan perintah berikut:
+## **Langkah 3: Inisialisasi Firebase di Aplikasi**
+Dari direktori proyek Flutter, tambahkan plugin inti Firebase dengan perintah berikut:
 ```bash
 flutter pub add firebase_core
 ```
 
-Pastikan konfigurasi Firebase untuk aplikasi Flutter Anda tetap mutakhir dengan menjalankan perintah berikut:
+Pastikan konfigurasi Firebase untuk aplikasi Flutter tetap mutakhir dengan menjalankan perintah berikut:
 ```bash
 flutterfire configure
 ```
 
-Di file `lib/main.dart`, impor plugin inti Firebase dan file konfigurasi yang telah Anda buat:
+Di file `lib/main.dart`, impor plugin inti Firebase dan file konfigurasi yang telah dibuat:
 ```dart
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -52,7 +52,7 @@ runApp(const MyApp());
 ```
 
 ## **Langkah 4: Build dan Jalankan Aplikasi Flutter**
-Jalankan perintah berikut untuk membangun dan menjalankan aplikasi Flutter Anda:
+Jalankan perintah berikut untuk membangun dan menjalankan aplikasi Flutter:
 ```bash
 flutter run
 ```
